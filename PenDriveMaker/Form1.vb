@@ -1,4 +1,5 @@
 ﻿Imports System.Net
+Imports Newtonsoft.Json
 
 Public Class Form1
     Dim WithEvents WC As New WebClient
@@ -28,10 +29,22 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-        Dim reader As String
-        reader = ApiRest.GetEducatuxVersions()
-        MessageBox.Show(reader)
+        Dim jsonString As String
+        Dim versions As List(Of Version)
 
+        jsonString = ApiRest.GetEducatuxVersions()
+        versions = JsonConvert.DeserializeObject(Of List(Of Version))(jsonString)
+
+        For Each version As Version In versions
+            MessageBox.Show(version.version)
+        Next
     End Sub
 End Class
 
+
+Public Class Version
+    Public Property name As String
+    Public Property version As String
+    Public Property checksum As String
+    Public Property iso As String
+End Class

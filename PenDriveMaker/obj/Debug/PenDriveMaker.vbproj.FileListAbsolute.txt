@@ -9,3 +9,6 @@ c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMake
 c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.exe
 c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.xml
 c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.pdb
+C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\Newtonsoft.Json.dll
+C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\Newtonsoft.Json.xml
