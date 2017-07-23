@@ -1,0 +1,11 @@
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\PenDriveMaker.exe.config
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\PenDriveMaker.exe
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\PenDriveMaker.pdb
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\PenDriveMaker.xml
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.vbprojResolveAssemblyReference.cache
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.Form1.resources
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.Resources.resources
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.vbproj.GenerateResource.Cache
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.exe
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.xml
+c:\users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\obj\Debug\PenDriveMaker.pdb
