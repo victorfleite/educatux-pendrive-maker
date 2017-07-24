@@ -14,3 +14,4 @@ C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMake
 C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\Newtonsoft.Json.xml
 C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\MadMilkman.Ini.dll
 C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\MadMilkman.Ini.xml
+C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\Config.ini

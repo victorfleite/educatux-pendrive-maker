@@ -23,42 +23,49 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Me.btnDownload = New System.Windows.Forms.Button()
+        Me.BtnDownload = New System.Windows.Forms.Button()
         Me.progressBar = New System.Windows.Forms.ProgressBar()
         Me.progressBarLabel = New System.Windows.Forms.Label()
         Me.comboBoxVersions = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.tabControl1 = New System.Windows.Forms.TabControl()
-        Me.downloadTab = New System.Windows.Forms.TabPage()
-        Me.btnCancel = New System.Windows.Forms.Button()
-        Me.downloadingLabel = New System.Windows.Forms.Label()
-        Me.makePenDriveTab = New System.Windows.Forms.TabPage()
-        Me.createPenDriveBtn = New System.Windows.Forms.Button()
-        Me.isoFileNameTxt = New System.Windows.Forms.TextBox()
-        Me.searchIsoBtn = New System.Windows.Forms.Button()
+        Me.EducatuxVersionLabel = New System.Windows.Forms.Label()
+        Me.TabControl = New System.Windows.Forms.TabControl()
+        Me.DownloadTab = New System.Windows.Forms.TabPage()
+        Me.BtnCancel = New System.Windows.Forms.Button()
+        Me.DownloadingLabel = New System.Windows.Forms.Label()
+        Me.MakePenDriveTab = New System.Windows.Forms.TabPage()
+        Me.CreatePenDriveBtn = New System.Windows.Forms.Button()
+        Me.IsoFileNameTxt = New System.Windows.Forms.TextBox()
+        Me.SearchIsoBtn = New System.Windows.Forms.Button()
         Me.noConnectionLabel = New System.Windows.Forms.Label()
-        Me.isoFolderGroup = New System.Windows.Forms.GroupBox()
-        Me.isoFolderName = New System.Windows.Forms.TextBox()
-        Me.seachIsoFolderBtn = New System.Windows.Forms.Button()
+        Me.IsoFolderGroup = New System.Windows.Forms.GroupBox()
+        Me.IsoFolderName = New System.Windows.Forms.TextBox()
+        Me.SeachIsoFolderBtn = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
         Me.advertisingImg = New System.Windows.Forms.PictureBox()
         Me.openIsoVersion = New System.Windows.Forms.OpenFileDialog()
-        Me.tabControl1.SuspendLayout()
-        Me.downloadTab.SuspendLayout()
-        Me.makePenDriveTab.SuspendLayout()
-        Me.isoFolderGroup.SuspendLayout()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBoxPortuguese = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBoxEnglish = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContactToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AboutUsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TabControl.SuspendLayout()
+        Me.DownloadTab.SuspendLayout()
+        Me.MakePenDriveTab.SuspendLayout()
+        Me.IsoFolderGroup.SuspendLayout()
         CType(Me.advertisingImg, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'btnDownload
+        'BtnDownload
         '
-        Me.btnDownload.BackColor = System.Drawing.Color.Transparent
-        Me.btnDownload.Location = New System.Drawing.Point(240, 109)
-        Me.btnDownload.Name = "btnDownload"
-        Me.btnDownload.Size = New System.Drawing.Size(75, 23)
-        Me.btnDownload.TabIndex = 0
-        Me.btnDownload.Text = "Download"
-        Me.btnDownload.UseVisualStyleBackColor = False
+        Me.BtnDownload.BackColor = System.Drawing.Color.Transparent
+        Me.BtnDownload.Location = New System.Drawing.Point(240, 109)
+        Me.BtnDownload.Name = "BtnDownload"
+        Me.BtnDownload.Size = New System.Drawing.Size(75, 23)
+        Me.BtnDownload.TabIndex = 0
+        Me.BtnDownload.Text = "Download"
+        Me.BtnDownload.UseVisualStyleBackColor = False
         '
         'progressBar
         '
@@ -85,150 +92,150 @@ Partial Class Form1
         Me.comboBoxVersions.Size = New System.Drawing.Size(298, 21)
         Me.comboBoxVersions.TabIndex = 4
         '
-        'Label1
+        'EducatuxVersionLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(14, 66)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(95, 13)
-        Me.Label1.TabIndex = 5
-        Me.Label1.Text = "Educatux Versions"
+        Me.EducatuxVersionLabel.AutoSize = True
+        Me.EducatuxVersionLabel.Location = New System.Drawing.Point(14, 66)
+        Me.EducatuxVersionLabel.Name = "EducatuxVersionLabel"
+        Me.EducatuxVersionLabel.Size = New System.Drawing.Size(95, 13)
+        Me.EducatuxVersionLabel.TabIndex = 5
+        Me.EducatuxVersionLabel.Text = "Educatux Versions"
         '
-        'tabControl1
+        'TabControl
         '
-        Me.tabControl1.Controls.Add(Me.downloadTab)
-        Me.tabControl1.Controls.Add(Me.makePenDriveTab)
-        Me.tabControl1.Location = New System.Drawing.Point(12, 221)
-        Me.tabControl1.Name = "tabControl1"
-        Me.tabControl1.SelectedIndex = 0
-        Me.tabControl1.Size = New System.Drawing.Size(342, 181)
-        Me.tabControl1.TabIndex = 6
+        Me.TabControl.Controls.Add(Me.DownloadTab)
+        Me.TabControl.Controls.Add(Me.MakePenDriveTab)
+        Me.TabControl.Location = New System.Drawing.Point(12, 29)
+        Me.TabControl.Name = "TabControl"
+        Me.TabControl.SelectedIndex = 0
+        Me.TabControl.Size = New System.Drawing.Size(342, 188)
+        Me.TabControl.TabIndex = 6
         '
-        'downloadTab
+        'DownloadTab
         '
-        Me.downloadTab.Controls.Add(Me.btnCancel)
-        Me.downloadTab.Controls.Add(Me.downloadingLabel)
-        Me.downloadTab.Controls.Add(Me.Label1)
-        Me.downloadTab.Controls.Add(Me.comboBoxVersions)
-        Me.downloadTab.Controls.Add(Me.btnDownload)
-        Me.downloadTab.Controls.Add(Me.progressBarLabel)
-        Me.downloadTab.Controls.Add(Me.progressBar)
-        Me.downloadTab.Location = New System.Drawing.Point(4, 22)
-        Me.downloadTab.Name = "downloadTab"
-        Me.downloadTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.downloadTab.Size = New System.Drawing.Size(334, 155)
-        Me.downloadTab.TabIndex = 0
-        Me.downloadTab.Text = "Download"
-        Me.downloadTab.UseVisualStyleBackColor = True
+        Me.DownloadTab.Controls.Add(Me.BtnCancel)
+        Me.DownloadTab.Controls.Add(Me.DownloadingLabel)
+        Me.DownloadTab.Controls.Add(Me.EducatuxVersionLabel)
+        Me.DownloadTab.Controls.Add(Me.comboBoxVersions)
+        Me.DownloadTab.Controls.Add(Me.BtnDownload)
+        Me.DownloadTab.Controls.Add(Me.progressBarLabel)
+        Me.DownloadTab.Controls.Add(Me.progressBar)
+        Me.DownloadTab.Location = New System.Drawing.Point(4, 22)
+        Me.DownloadTab.Name = "DownloadTab"
+        Me.DownloadTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.DownloadTab.Size = New System.Drawing.Size(334, 162)
+        Me.DownloadTab.TabIndex = 0
+        Me.DownloadTab.Text = "Download"
+        Me.DownloadTab.UseVisualStyleBackColor = True
         '
-        'btnCancel
+        'BtnCancel
         '
-        Me.btnCancel.BackColor = System.Drawing.Color.Transparent
-        Me.btnCancel.Location = New System.Drawing.Point(159, 109)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 7
-        Me.btnCancel.Text = "Cancel"
-        Me.btnCancel.UseVisualStyleBackColor = False
+        Me.BtnCancel.BackColor = System.Drawing.Color.Transparent
+        Me.BtnCancel.Location = New System.Drawing.Point(159, 109)
+        Me.BtnCancel.Name = "BtnCancel"
+        Me.BtnCancel.Size = New System.Drawing.Size(75, 23)
+        Me.BtnCancel.TabIndex = 7
+        Me.BtnCancel.Text = "Cancel"
+        Me.BtnCancel.UseVisualStyleBackColor = False
         '
-        'downloadingLabel
+        'DownloadingLabel
         '
-        Me.downloadingLabel.AutoSize = True
-        Me.downloadingLabel.Location = New System.Drawing.Point(237, 21)
-        Me.downloadingLabel.Name = "downloadingLabel"
-        Me.downloadingLabel.Size = New System.Drawing.Size(78, 13)
-        Me.downloadingLabel.TabIndex = 6
-        Me.downloadingLabel.Text = "Downloading..."
-        Me.downloadingLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
-        Me.downloadingLabel.Visible = False
+        Me.DownloadingLabel.AutoSize = True
+        Me.DownloadingLabel.Location = New System.Drawing.Point(205, 21)
+        Me.DownloadingLabel.Name = "DownloadingLabel"
+        Me.DownloadingLabel.Size = New System.Drawing.Size(78, 13)
+        Me.DownloadingLabel.TabIndex = 6
+        Me.DownloadingLabel.Text = "Downloading..."
+        Me.DownloadingLabel.Visible = False
         '
-        'makePenDriveTab
+        'MakePenDriveTab
         '
-        Me.makePenDriveTab.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
-        Me.makePenDriveTab.Controls.Add(Me.createPenDriveBtn)
-        Me.makePenDriveTab.Controls.Add(Me.isoFileNameTxt)
-        Me.makePenDriveTab.Controls.Add(Me.searchIsoBtn)
-        Me.makePenDriveTab.Location = New System.Drawing.Point(4, 22)
-        Me.makePenDriveTab.Name = "makePenDriveTab"
-        Me.makePenDriveTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.makePenDriveTab.Size = New System.Drawing.Size(334, 155)
-        Me.makePenDriveTab.TabIndex = 1
-        Me.makePenDriveTab.Text = "Create a Pen Drive"
-        Me.makePenDriveTab.UseVisualStyleBackColor = True
+        Me.MakePenDriveTab.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.MakePenDriveTab.Controls.Add(Me.CreatePenDriveBtn)
+        Me.MakePenDriveTab.Controls.Add(Me.IsoFileNameTxt)
+        Me.MakePenDriveTab.Controls.Add(Me.SearchIsoBtn)
+        Me.MakePenDriveTab.Location = New System.Drawing.Point(4, 22)
+        Me.MakePenDriveTab.Name = "MakePenDriveTab"
+        Me.MakePenDriveTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.MakePenDriveTab.Size = New System.Drawing.Size(334, 162)
+        Me.MakePenDriveTab.TabIndex = 1
+        Me.MakePenDriveTab.Text = "Create a Pen Drive"
+        Me.MakePenDriveTab.UseVisualStyleBackColor = True
         '
-        'createPenDriveBtn
+        'CreatePenDriveBtn
         '
-        Me.createPenDriveBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
-        Me.createPenDriveBtn.Enabled = False
-        Me.createPenDriveBtn.Location = New System.Drawing.Point(97, 105)
-        Me.createPenDriveBtn.Name = "createPenDriveBtn"
-        Me.createPenDriveBtn.Size = New System.Drawing.Size(148, 35)
-        Me.createPenDriveBtn.TabIndex = 2
-        Me.createPenDriveBtn.Text = "Create a Pen Drive"
-        Me.createPenDriveBtn.UseVisualStyleBackColor = True
+        Me.CreatePenDriveBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.CreatePenDriveBtn.Enabled = False
+        Me.CreatePenDriveBtn.Location = New System.Drawing.Point(97, 105)
+        Me.CreatePenDriveBtn.Name = "CreatePenDriveBtn"
+        Me.CreatePenDriveBtn.Size = New System.Drawing.Size(148, 35)
+        Me.CreatePenDriveBtn.TabIndex = 2
+        Me.CreatePenDriveBtn.Text = "Create a Pen Drive"
+        Me.CreatePenDriveBtn.UseVisualStyleBackColor = True
         '
-        'isoFileNameTxt
+        'IsoFileNameTxt
         '
-        Me.isoFileNameTxt.Enabled = False
-        Me.isoFileNameTxt.Location = New System.Drawing.Point(17, 65)
-        Me.isoFileNameTxt.Name = "isoFileNameTxt"
-        Me.isoFileNameTxt.Size = New System.Drawing.Size(216, 20)
-        Me.isoFileNameTxt.TabIndex = 1
+        Me.IsoFileNameTxt.Enabled = False
+        Me.IsoFileNameTxt.Location = New System.Drawing.Point(17, 65)
+        Me.IsoFileNameTxt.Name = "IsoFileNameTxt"
+        Me.IsoFileNameTxt.Size = New System.Drawing.Size(216, 20)
+        Me.IsoFileNameTxt.TabIndex = 1
+        Me.IsoFileNameTxt.Text = "Select an iso file"
         '
-        'searchIsoBtn
+        'SearchIsoBtn
         '
-        Me.searchIsoBtn.Location = New System.Drawing.Point(239, 65)
-        Me.searchIsoBtn.Name = "searchIsoBtn"
-        Me.searchIsoBtn.Size = New System.Drawing.Size(75, 23)
-        Me.searchIsoBtn.TabIndex = 0
-        Me.searchIsoBtn.Text = "Search File"
-        Me.searchIsoBtn.UseVisualStyleBackColor = True
+        Me.SearchIsoBtn.Location = New System.Drawing.Point(239, 63)
+        Me.SearchIsoBtn.Name = "SearchIsoBtn"
+        Me.SearchIsoBtn.Size = New System.Drawing.Size(75, 23)
+        Me.SearchIsoBtn.TabIndex = 0
+        Me.SearchIsoBtn.Text = "Search File"
+        Me.SearchIsoBtn.UseVisualStyleBackColor = True
         '
         'noConnectionLabel
         '
         Me.noConnectionLabel.AutoSize = True
-        Me.noConnectionLabel.Location = New System.Drawing.Point(37, 205)
+        Me.noConnectionLabel.Location = New System.Drawing.Point(37, 238)
         Me.noConnectionLabel.Name = "noConnectionLabel"
         Me.noConnectionLabel.Size = New System.Drawing.Size(293, 13)
         Me.noConnectionLabel.TabIndex = 7
         Me.noConnectionLabel.Text = "No connection. Check the internet connection and try again."
         Me.noConnectionLabel.Visible = False
         '
-        'isoFolderGroup
+        'IsoFolderGroup
         '
-        Me.isoFolderGroup.Controls.Add(Me.isoFolderName)
-        Me.isoFolderGroup.Controls.Add(Me.seachIsoFolderBtn)
-        Me.isoFolderGroup.Location = New System.Drawing.Point(12, 418)
-        Me.isoFolderGroup.Name = "isoFolderGroup"
-        Me.isoFolderGroup.Size = New System.Drawing.Size(332, 57)
-        Me.isoFolderGroup.TabIndex = 8
-        Me.isoFolderGroup.TabStop = False
-        Me.isoFolderGroup.Text = "Iso Folder"
+        Me.IsoFolderGroup.Controls.Add(Me.IsoFolderName)
+        Me.IsoFolderGroup.Controls.Add(Me.SeachIsoFolderBtn)
+        Me.IsoFolderGroup.Location = New System.Drawing.Point(11, 230)
+        Me.IsoFolderGroup.Name = "IsoFolderGroup"
+        Me.IsoFolderGroup.Size = New System.Drawing.Size(342, 57)
+        Me.IsoFolderGroup.TabIndex = 8
+        Me.IsoFolderGroup.TabStop = False
+        Me.IsoFolderGroup.Text = "Iso Folder"
         '
-        'isoFolderName
+        'IsoFolderName
         '
-        Me.isoFolderName.Enabled = False
-        Me.isoFolderName.Location = New System.Drawing.Point(21, 21)
-        Me.isoFolderName.Name = "isoFolderName"
-        Me.isoFolderName.Size = New System.Drawing.Size(203, 20)
-        Me.isoFolderName.TabIndex = 1
-        Me.isoFolderName.Text = "Select a folder for iso"
+        Me.IsoFolderName.Enabled = False
+        Me.IsoFolderName.Location = New System.Drawing.Point(21, 21)
+        Me.IsoFolderName.Name = "IsoFolderName"
+        Me.IsoFolderName.Size = New System.Drawing.Size(203, 20)
+        Me.IsoFolderName.TabIndex = 1
+        Me.IsoFolderName.Text = "Select a folder for iso"
         '
-        'seachIsoFolderBtn
+        'SeachIsoFolderBtn
         '
-        Me.seachIsoFolderBtn.Location = New System.Drawing.Point(230, 18)
-        Me.seachIsoFolderBtn.Name = "seachIsoFolderBtn"
-        Me.seachIsoFolderBtn.Size = New System.Drawing.Size(88, 23)
-        Me.seachIsoFolderBtn.TabIndex = 0
-        Me.seachIsoFolderBtn.Text = "Search Folder"
-        Me.seachIsoFolderBtn.UseVisualStyleBackColor = True
+        Me.SeachIsoFolderBtn.Location = New System.Drawing.Point(230, 19)
+        Me.SeachIsoFolderBtn.Name = "SeachIsoFolderBtn"
+        Me.SeachIsoFolderBtn.Size = New System.Drawing.Size(88, 23)
+        Me.SeachIsoFolderBtn.TabIndex = 0
+        Me.SeachIsoFolderBtn.Text = "Search Folder"
+        Me.SeachIsoFolderBtn.UseVisualStyleBackColor = True
         '
         'advertisingImg
         '
         Me.advertisingImg.Image = CType(resources.GetObject("advertisingImg.Image"), System.Drawing.Image)
-        Me.advertisingImg.Location = New System.Drawing.Point(12, 12)
+        Me.advertisingImg.Location = New System.Drawing.Point(12, 302)
         Me.advertisingImg.Name = "advertisingImg"
-        Me.advertisingImg.Size = New System.Drawing.Size(338, 190)
+        Me.advertisingImg.Size = New System.Drawing.Size(338, 196)
         Me.advertisingImg.TabIndex = 9
         Me.advertisingImg.TabStop = False
         '
@@ -236,48 +243,101 @@ Partial Class Form1
         '
         Me.openIsoVersion.FileName = "OpenFileDialog1"
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ContactToolStripMenuItem, Me.AboutUsToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(364, 24)
+        Me.MenuStrip1.TabIndex = 10
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBoxPortuguese, Me.ToolStripTextBoxEnglish})
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(71, 20)
+        Me.ToolStripMenuItem1.Text = "Language"
+        '
+        'ToolStripTextBoxPortuguese
+        '
+        Me.ToolStripTextBoxPortuguese.Name = "ToolStripTextBoxPortuguese"
+        Me.ToolStripTextBoxPortuguese.Size = New System.Drawing.Size(134, 22)
+        Me.ToolStripTextBoxPortuguese.Text = "Portuguese"
+        '
+        'ToolStripTextBoxEnglish
+        '
+        Me.ToolStripTextBoxEnglish.Name = "ToolStripTextBoxEnglish"
+        Me.ToolStripTextBoxEnglish.Size = New System.Drawing.Size(134, 22)
+        Me.ToolStripTextBoxEnglish.Text = "English"
+        '
+        'ContactToolStripMenuItem
+        '
+        Me.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem"
+        Me.ContactToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
+        Me.ContactToolStripMenuItem.Text = "Contact"
+        '
+        'AboutUsToolStripMenuItem
+        '
+        Me.AboutUsToolStripMenuItem.BackColor = System.Drawing.Color.GhostWhite
+        Me.AboutUsToolStripMenuItem.Name = "AboutUsToolStripMenuItem"
+        Me.AboutUsToolStripMenuItem.Size = New System.Drawing.Size(67, 20)
+        Me.AboutUsToolStripMenuItem.Text = "About us"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(364, 487)
+        Me.ClientSize = New System.Drawing.Size(364, 510)
         Me.Controls.Add(Me.advertisingImg)
-        Me.Controls.Add(Me.isoFolderGroup)
+        Me.Controls.Add(Me.IsoFolderGroup)
         Me.Controls.Add(Me.noConnectionLabel)
-        Me.Controls.Add(Me.tabControl1)
+        Me.Controls.Add(Me.TabControl)
+        Me.Controls.Add(Me.MenuStrip1)
+        Me.MainMenuStrip = Me.MenuStrip1
+        Me.MaximizeBox = False
         Me.Name = "Form1"
-        Me.Text = "Educatux Magic - v0.1.0"
-        Me.tabControl1.ResumeLayout(False)
-        Me.downloadTab.ResumeLayout(False)
-        Me.downloadTab.PerformLayout()
-        Me.makePenDriveTab.ResumeLayout(False)
-        Me.makePenDriveTab.PerformLayout()
-        Me.isoFolderGroup.ResumeLayout(False)
-        Me.isoFolderGroup.PerformLayout()
+        Me.Text = "Educatux Magic"
+        Me.TabControl.ResumeLayout(False)
+        Me.DownloadTab.ResumeLayout(False)
+        Me.DownloadTab.PerformLayout()
+        Me.MakePenDriveTab.ResumeLayout(False)
+        Me.MakePenDriveTab.PerformLayout()
+        Me.IsoFolderGroup.ResumeLayout(False)
+        Me.IsoFolderGroup.PerformLayout()
         CType(Me.advertisingImg, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents btnDownload As Button
+    Friend WithEvents BtnDownload As Button
     Friend WithEvents progressBar As ProgressBar
     Friend WithEvents progressBarLabel As Label
     Friend WithEvents comboBoxVersions As ComboBox
-    Friend WithEvents Label1 As Label
-    Friend WithEvents tabControl1 As TabControl
-    Friend WithEvents downloadTab As TabPage
-    Friend WithEvents makePenDriveTab As TabPage
-    Friend WithEvents downloadingLabel As Label
-    Friend WithEvents btnCancel As Button
+    Friend WithEvents EducatuxVersionLabel As Label
+    Friend WithEvents TabControl As TabControl
+    Friend WithEvents DownloadTab As TabPage
+    Friend WithEvents MakePenDriveTab As TabPage
+    Friend WithEvents DownloadingLabel As Label
+    Friend WithEvents BtnCancel As Button
     Friend WithEvents noConnectionLabel As Label
-    Friend WithEvents isoFolderGroup As GroupBox
-    Friend WithEvents isoFolderName As TextBox
-    Friend WithEvents seachIsoFolderBtn As Button
+    Friend WithEvents IsoFolderGroup As GroupBox
+    Friend WithEvents IsoFolderName As TextBox
+    Friend WithEvents SeachIsoFolderBtn As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
     Friend WithEvents advertisingImg As PictureBox
     Friend WithEvents openIsoVersion As OpenFileDialog
-    Friend WithEvents isoFileNameTxt As TextBox
-    Friend WithEvents searchIsoBtn As Button
-    Friend WithEvents createPenDriveBtn As Button
+    Friend WithEvents IsoFileNameTxt As TextBox
+    Friend WithEvents SearchIsoBtn As Button
+    Friend WithEvents CreatePenDriveBtn As Button
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ContactToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AboutUsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripTextBoxPortuguese As ToolStripMenuItem
+    Friend WithEvents ToolStripTextBoxEnglish As ToolStripMenuItem
 End Class

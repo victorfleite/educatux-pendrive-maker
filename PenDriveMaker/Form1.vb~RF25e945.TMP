@@ -11,28 +11,26 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Me.languageCode = "pt_BR"
         Me.config = New Config()
-        Me.Text = Me.Text & " - " & config.GetKeyValue("version")
-        TranslateAll(languageCode)
+        TranslateAll("pt_BR")
 
         If Not Util.CheckForInternetConnection Then
 
-            BtnCancel.Visible = False
-            BtnDownload.Visible = False
+            btnCancel.Visible = False
+            btnDownload.Visible = False
             TabControl.Visible = False
-            IsoFolderGroup.Visible = False
+            isoFolderGroup.Visible = False
             advertisingImg.Visible = False
             noConnectionLabel.Visible = True
 
         Else
 
             advertisingImg.Visible = True
-            BtnCancel.Enabled = False
-            BtnDownload.Enabled = True
+            btnCancel.Enabled = False
+            btnDownload.Enabled = True
             LoadVersionCombo()
-            IsoFolderName.Text = Me.config.GetKeyValue("isoFolder")
-            FolderBrowserDialog1.SelectedPath = IsoFolderName.Text
+            isoFolderName.Text = Me.config.GetKeyValue("isoFolder")
+            FolderBrowserDialog1.SelectedPath = isoFolderName.Text
 
 
         End If
@@ -41,7 +39,7 @@ Public Class Form1
 
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
-    Handles BtnDownload.Click
+    Handles btnDownload.Click
 
         If versionSelected IsNot Nothing Then
 
@@ -49,19 +47,19 @@ Public Class Form1
             AddHandler client.DownloadProgressChanged, AddressOf client_ProgressChanged
             AddHandler client.DownloadFileCompleted, AddressOf client_DownloadCompleted
 
-            client.DownloadFileAsync(New Uri(versionSelected.iso), IsoFolderName.Text & "\" & versionSelected.filename)
+            client.DownloadFileAsync(New Uri(versionSelected.iso), isoFolderName.Text & "\" & versionSelected.filename)
 
-            BtnCancel.Enabled = True
-            BtnDownload.Enabled = False
+            btnCancel.Enabled = True
+            btnDownload.Enabled = False
 
             progressBar.Visible = True
             progressBarLabel.Visible = True
-            DownloadingLabel.Visible = True
-            DownloadingLabel.Text = config.GetTranslation(languageCode, "Downloading...")
+            downloadingLabel.Visible = True
+            downloadingLabel.Text = "Downloading..."
 
         Else
 
-            MessageBox.Show(config.GetTranslation(languageCode, "Please, choose one version of Educatux"))
+            MessageBox.Show("Please, choose one version of Educatux")
 
         End If
 
@@ -79,9 +77,8 @@ Public Class Form1
 
     Private Sub client_DownloadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 
-        BtnDownload.Enabled = True
-        DownloadingLabel.Text = config.GetTranslation(languageCode, "Download Complete")
-        MessageBox.Show(config.GetTranslation(languageCode, "Download Complete"))
+        btnDownload.Enabled = True
+        MessageBox.Show("Download Complete")
 
     End Sub
 
@@ -95,22 +92,22 @@ Public Class Form1
         For Each version As Version In Me.versionList
             comboBoxVersions.Items.Add(version.name & " - " & version.version & " [ " & version.size & " ]")
         Next
-        comboBoxVersions.Text = config.GetTranslation(languageCode, "Select...")
+        comboBoxVersions.Text = "Select..."
 
     End Sub
 
 
 
-    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles BtnCancel.Click
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles btnCancel.Click
 
         client.CancelAsync()
         progressBar.Visible = False
         progressBarLabel.Visible = False
-        DownloadingLabel.Visible = False
+        downloadingLabel.Visible = False
         progressBarLabel.Text = ""
-        DownloadingLabel.Text = ""
-        BtnCancel.Enabled = False
-        BtnDownload.Enabled = True
+        downloadingLabel.Text = ""
+        btnCancel.Enabled = False
+        btnDownload.Enabled = True
 
     End Sub
 
@@ -120,20 +117,20 @@ Public Class Form1
 
     End Sub
 
-    Private Sub seachIsoFolderBtn_Click(sender As Object, e As EventArgs) Handles SeachIsoFolderBtn.Click
+    Private Sub seachIsoFolderBtn_Click(sender As Object, e As EventArgs) Handles seachIsoFolderBtn.Click
 
         Dim result As DialogResult = FolderBrowserDialog1.ShowDialog()
 
         If (result = DialogResult.OK) Then
 
-            IsoFolderName.Text = FolderBrowserDialog1.SelectedPath
+            isoFolderName.Text = FolderBrowserDialog1.SelectedPath
 
         End If
 
 
     End Sub
 
-    Private Sub searchIsoBtn_Click(sender As Object, e As EventArgs) Handles SearchIsoBtn.Click
+    Private Sub searchIsoBtn_Click(sender As Object, e As EventArgs) Handles searchIsoBtn.Click
 
         openIsoVersion.InitialDirectory = FolderBrowserDialog1.SelectedPath
         openIsoVersion.FileName = Nothing
@@ -144,8 +141,8 @@ Public Class Form1
 
         ' OK button was pressed.
         If (result = DialogResult.OK) Then
-            IsoFileNameTxt.Text = openIsoVersion.FileName
-            CreatePenDriveBtn.Enabled = True
+            isoFileNameTxt.Text = openIsoVersion.FileName
+            createPenDriveBtn.Enabled = True
             'TODO Checksum validation
             Try
                 ' Output the requested file in richTextBox1.
@@ -172,16 +169,16 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
+    Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles createPenDriveBtn.Click
 
     End Sub
 
-    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxPortuguese.Click
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox1.Click
         languageCode = "pt_BR"
         TranslateAll(languageCode)
     End Sub
 
-    Private Sub ToolStripTextBox2_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxEnglish.Click
+    Private Sub ToolStripTextBox2_Click(sender As Object, e As EventArgs) Handles ToolStripTextBox2.Click
         languageCode = "en"
         TranslateAll(languageCode)
     End Sub
@@ -190,23 +187,10 @@ Public Class Form1
 
         'Menu
         ToolStripMenuItem1.Text = config.GetTranslation(languageCode, "Language")
-        ToolStripTextBoxPortuguese.Text = config.GetTranslation(languageCode, "Portuguese")
-        ToolStripTextBoxEnglish.Text = config.GetTranslation(languageCode, "English")
         ContactToolStripMenuItem.Text = config.GetTranslation(languageCode, "Contact")
         AboutUsToolStripMenuItem.Text = config.GetTranslation(languageCode, "About us")
-        DownloadTab.Text = config.GetTranslation(languageCode, "Download")
-        MakePenDriveTab.Text = config.GetTranslation(languageCode, "Create a Pen Drive")
-        DownloadingLabel.Text = config.GetTranslation(languageCode, "Downloading...")
-        EducatuxVersionLabel.Text = config.GetTranslation(languageCode, "Educatux Versions")
-        BtnCancel.Text = config.GetTranslation(languageCode, "Cancel")
-        BtnDownload.Text = config.GetTranslation(languageCode, "Download")
-        IsoFolderGroup.Text = config.GetTranslation(languageCode, "Iso Folder")
-        IsoFolderName.Text = config.GetTranslation(languageCode, "Select a folder for iso")
-        SeachIsoFolderBtn.Text = config.GetTranslation(languageCode, "Search Folder")
-        IsoFileNameTxt.Text = config.GetTranslation(languageCode, "Select an iso file")
-        SearchIsoBtn.Text = config.GetTranslation(languageCode, "Search File")
-        CreatePenDriveBtn.Text = config.GetTranslation(languageCode, "Create a Pen Drive")
-
+        downloadTab.Text = config.GetTranslation(languageCode, "Download")
+        makePenDriveTab.Text = config.GetTranslation(languageCode, "Download")
 
     End Sub
 
