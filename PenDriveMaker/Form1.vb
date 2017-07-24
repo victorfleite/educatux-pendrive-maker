@@ -1,5 +1,6 @@
 ﻿Imports System.Net
 Imports Newtonsoft.Json
+Imports System.IO
 
 Public Class Form1
     Dim WithEvents client As New WebClient
@@ -15,8 +16,7 @@ Public Class Form1
             AddHandler client.DownloadProgressChanged, AddressOf client_ProgressChanged
             AddHandler client.DownloadFileCompleted, AddressOf client_DownloadCompleted
 
-            Dim fileName As String = versionSelected.name.Replace(" ", "") & "_" & versionSelected.version & "_" & versionSelected.size & ".iso"
-            client.DownloadFileAsync(New Uri(versionSelected.iso), isoFolderName.Text & "\" & fileName)
+            client.DownloadFileAsync(New Uri(versionSelected.iso), isoFolderName.Text & "\" & versionSelected.filename)
 
             btnCancel.Enabled = True
             btnDownload.Enabled = False
@@ -47,7 +47,7 @@ Public Class Form1
     Private Sub client_DownloadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 
         btnDownload.Enabled = True
-        btnDownload.Text = "Download Complete"
+        MessageBox.Show("Download Complete")
 
     End Sub
 
@@ -73,14 +73,18 @@ Public Class Form1
             btnDownload.Visible = False
             tabControl1.Visible = False
             isoFolderGroup.Visible = False
+            advertisingImg.Visible = False
+
             noConnectionLabel.Visible = True
 
         Else
 
+            advertisingImg.Visible = True
             btnCancel.Enabled = False
             btnDownload.Enabled = True
             LoadVersionCombo()
             isoFolderName.Text = "C:\tmp"
+            FolderBrowserDialog1.SelectedPath = isoFolderName.Text
 
 
         End If
@@ -119,6 +123,49 @@ Public Class Form1
 
     End Sub
 
+    Private Sub searchIsoBtn_Click(sender As Object, e As EventArgs) Handles searchIsoBtn.Click
+
+        openIsoVersion.InitialDirectory = FolderBrowserDialog1.SelectedPath
+        openIsoVersion.FileName = Nothing
+
+
+        ' Display the openFile dialog.
+        Dim result As DialogResult = openIsoVersion.ShowDialog()
+
+        ' OK button was pressed.
+        If (result = DialogResult.OK) Then
+            isoFileNameTxt.Text = openIsoVersion.FileName
+            createPenDriveBtn.Enabled = True
+            'TODO Checksum validation
+            Try
+                ' Output the requested file in richTextBox1.
+                Dim s As Stream = openIsoVersion.OpenFile()
+                s.Close()
+
+
+            Catch exp As Exception
+                MessageBox.Show("An error occurred while attempting to load the file. The error is:" _
+                                + System.Environment.NewLine + exp.ToString() + System.Environment.NewLine)
+
+            End Try
+            Invalidate()
+
+
+            ' Cancel button was pressed.
+        ElseIf (result = DialogResult.Cancel) Then
+            Return
+        End If
+
+
+
+
+
+    End Sub
+
+    Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles createPenDriveBtn.Click
+
+    End Sub
+
 End Class
 
 
@@ -129,5 +176,6 @@ Public Class Version
     Public Property checksum As String
     Public Property iso As String
     Public Property size As String
+    Public Property filename As String
 
 End Class

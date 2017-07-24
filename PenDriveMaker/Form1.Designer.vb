@@ -33,16 +33,21 @@ Partial Class Form1
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.downloadingLabel = New System.Windows.Forms.Label()
         Me.makePenDriveTab = New System.Windows.Forms.TabPage()
+        Me.createPenDriveBtn = New System.Windows.Forms.Button()
+        Me.isoFileNameTxt = New System.Windows.Forms.TextBox()
+        Me.searchIsoBtn = New System.Windows.Forms.Button()
         Me.noConnectionLabel = New System.Windows.Forms.Label()
         Me.isoFolderGroup = New System.Windows.Forms.GroupBox()
         Me.isoFolderName = New System.Windows.Forms.TextBox()
         Me.seachIsoFolderBtn = New System.Windows.Forms.Button()
         Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.advertisingImg = New System.Windows.Forms.PictureBox()
+        Me.openIsoVersion = New System.Windows.Forms.OpenFileDialog()
         Me.tabControl1.SuspendLayout()
         Me.downloadTab.SuspendLayout()
+        Me.makePenDriveTab.SuspendLayout()
         Me.isoFolderGroup.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.advertisingImg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnDownload
@@ -139,13 +144,45 @@ Partial Class Form1
         '
         'makePenDriveTab
         '
+        Me.makePenDriveTab.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.makePenDriveTab.Controls.Add(Me.createPenDriveBtn)
+        Me.makePenDriveTab.Controls.Add(Me.isoFileNameTxt)
+        Me.makePenDriveTab.Controls.Add(Me.searchIsoBtn)
         Me.makePenDriveTab.Location = New System.Drawing.Point(4, 22)
         Me.makePenDriveTab.Name = "makePenDriveTab"
         Me.makePenDriveTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.makePenDriveTab.Size = New System.Drawing.Size(334, 255)
+        Me.makePenDriveTab.Size = New System.Drawing.Size(334, 155)
         Me.makePenDriveTab.TabIndex = 1
-        Me.makePenDriveTab.Text = "Make PenDrive"
+        Me.makePenDriveTab.Text = "Create a Pen Drive"
         Me.makePenDriveTab.UseVisualStyleBackColor = True
+        '
+        'createPenDriveBtn
+        '
+        Me.createPenDriveBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.createPenDriveBtn.Enabled = False
+        Me.createPenDriveBtn.Location = New System.Drawing.Point(97, 105)
+        Me.createPenDriveBtn.Name = "createPenDriveBtn"
+        Me.createPenDriveBtn.Size = New System.Drawing.Size(148, 35)
+        Me.createPenDriveBtn.TabIndex = 2
+        Me.createPenDriveBtn.Text = "Create a Pen Drive"
+        Me.createPenDriveBtn.UseVisualStyleBackColor = True
+        '
+        'isoFileNameTxt
+        '
+        Me.isoFileNameTxt.Enabled = False
+        Me.isoFileNameTxt.Location = New System.Drawing.Point(17, 65)
+        Me.isoFileNameTxt.Name = "isoFileNameTxt"
+        Me.isoFileNameTxt.Size = New System.Drawing.Size(216, 20)
+        Me.isoFileNameTxt.TabIndex = 1
+        '
+        'searchIsoBtn
+        '
+        Me.searchIsoBtn.Location = New System.Drawing.Point(239, 65)
+        Me.searchIsoBtn.Name = "searchIsoBtn"
+        Me.searchIsoBtn.Size = New System.Drawing.Size(75, 23)
+        Me.searchIsoBtn.TabIndex = 0
+        Me.searchIsoBtn.Text = "Search File"
+        Me.searchIsoBtn.UseVisualStyleBackColor = True
         '
         'noConnectionLabel
         '
@@ -186,32 +223,38 @@ Partial Class Form1
         Me.seachIsoFolderBtn.Text = "Search Folder"
         Me.seachIsoFolderBtn.UseVisualStyleBackColor = True
         '
-        'PictureBox1
+        'advertisingImg
         '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 12)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(338, 190)
-        Me.PictureBox1.TabIndex = 9
-        Me.PictureBox1.TabStop = False
+        Me.advertisingImg.Image = CType(resources.GetObject("advertisingImg.Image"), System.Drawing.Image)
+        Me.advertisingImg.Location = New System.Drawing.Point(12, 12)
+        Me.advertisingImg.Name = "advertisingImg"
+        Me.advertisingImg.Size = New System.Drawing.Size(338, 190)
+        Me.advertisingImg.TabIndex = 9
+        Me.advertisingImg.TabStop = False
+        '
+        'openIsoVersion
+        '
+        Me.openIsoVersion.FileName = "OpenFileDialog1"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(364, 487)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.advertisingImg)
         Me.Controls.Add(Me.isoFolderGroup)
         Me.Controls.Add(Me.noConnectionLabel)
         Me.Controls.Add(Me.tabControl1)
         Me.Name = "Form1"
-        Me.Text = "Educatux Magic"
+        Me.Text = "Educatux Magic - v0.1.0"
         Me.tabControl1.ResumeLayout(False)
         Me.downloadTab.ResumeLayout(False)
         Me.downloadTab.PerformLayout()
+        Me.makePenDriveTab.ResumeLayout(False)
+        Me.makePenDriveTab.PerformLayout()
         Me.isoFolderGroup.ResumeLayout(False)
         Me.isoFolderGroup.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.advertisingImg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -232,5 +275,9 @@ Partial Class Form1
     Friend WithEvents isoFolderName As TextBox
     Friend WithEvents seachIsoFolderBtn As Button
     Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents advertisingImg As PictureBox
+    Friend WithEvents openIsoVersion As OpenFileDialog
+    Friend WithEvents isoFileNameTxt As TextBox
+    Friend WithEvents searchIsoBtn As Button
+    Friend WithEvents createPenDriveBtn As Button
 End Class
