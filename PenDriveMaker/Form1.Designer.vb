@@ -33,6 +33,9 @@ Partial Class Form1
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.DownloadingLabel = New System.Windows.Forms.Label()
         Me.MakePenDriveTab = New System.Windows.Forms.TabPage()
+        Me.SelectPenDriveLabel = New System.Windows.Forms.Label()
+        Me.SelectIsoLabel = New System.Windows.Forms.Label()
+        Me.DeviceComboBox = New System.Windows.Forms.ComboBox()
         Me.CreatePenDriveBtn = New System.Windows.Forms.Button()
         Me.IsoFileNameTxt = New System.Windows.Forms.TextBox()
         Me.SearchIsoBtn = New System.Windows.Forms.Button()
@@ -151,6 +154,9 @@ Partial Class Form1
         'MakePenDriveTab
         '
         Me.MakePenDriveTab.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.MakePenDriveTab.Controls.Add(Me.SelectPenDriveLabel)
+        Me.MakePenDriveTab.Controls.Add(Me.SelectIsoLabel)
+        Me.MakePenDriveTab.Controls.Add(Me.DeviceComboBox)
         Me.MakePenDriveTab.Controls.Add(Me.CreatePenDriveBtn)
         Me.MakePenDriveTab.Controls.Add(Me.IsoFileNameTxt)
         Me.MakePenDriveTab.Controls.Add(Me.SearchIsoBtn)
@@ -162,21 +168,48 @@ Partial Class Form1
         Me.MakePenDriveTab.Text = "Create a Pen Drive"
         Me.MakePenDriveTab.UseVisualStyleBackColor = True
         '
+        'SelectPenDriveLabel
+        '
+        Me.SelectPenDriveLabel.AutoSize = True
+        Me.SelectPenDriveLabel.Location = New System.Drawing.Point(13, 62)
+        Me.SelectPenDriveLabel.Name = "SelectPenDriveLabel"
+        Me.SelectPenDriveLabel.Size = New System.Drawing.Size(76, 13)
+        Me.SelectPenDriveLabel.TabIndex = 5
+        Me.SelectPenDriveLabel.Text = "Pen Drive Unit"
+        '
+        'SelectIsoLabel
+        '
+        Me.SelectIsoLabel.AutoSize = True
+        Me.SelectIsoLabel.Location = New System.Drawing.Point(16, 15)
+        Me.SelectIsoLabel.Name = "SelectIsoLabel"
+        Me.SelectIsoLabel.Size = New System.Drawing.Size(51, 13)
+        Me.SelectIsoLabel.TabIndex = 4
+        Me.SelectIsoLabel.Text = "File of iso"
+        '
+        'DeviceComboBox
+        '
+        Me.DeviceComboBox.FormattingEnabled = True
+        Me.DeviceComboBox.Location = New System.Drawing.Point(16, 78)
+        Me.DeviceComboBox.Name = "DeviceComboBox"
+        Me.DeviceComboBox.Size = New System.Drawing.Size(297, 21)
+        Me.DeviceComboBox.TabIndex = 3
+        '
         'CreatePenDriveBtn
         '
         Me.CreatePenDriveBtn.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.CreatePenDriveBtn.BackColor = System.Drawing.Color.Transparent
         Me.CreatePenDriveBtn.Enabled = False
-        Me.CreatePenDriveBtn.Location = New System.Drawing.Point(97, 105)
+        Me.CreatePenDriveBtn.Location = New System.Drawing.Point(16, 111)
         Me.CreatePenDriveBtn.Name = "CreatePenDriveBtn"
-        Me.CreatePenDriveBtn.Size = New System.Drawing.Size(148, 35)
+        Me.CreatePenDriveBtn.Size = New System.Drawing.Size(297, 37)
         Me.CreatePenDriveBtn.TabIndex = 2
         Me.CreatePenDriveBtn.Text = "Create a Pen Drive"
-        Me.CreatePenDriveBtn.UseVisualStyleBackColor = True
+        Me.CreatePenDriveBtn.UseVisualStyleBackColor = False
         '
         'IsoFileNameTxt
         '
         Me.IsoFileNameTxt.Enabled = False
-        Me.IsoFileNameTxt.Location = New System.Drawing.Point(17, 65)
+        Me.IsoFileNameTxt.Location = New System.Drawing.Point(16, 34)
         Me.IsoFileNameTxt.Name = "IsoFileNameTxt"
         Me.IsoFileNameTxt.Size = New System.Drawing.Size(216, 20)
         Me.IsoFileNameTxt.TabIndex = 1
@@ -184,9 +217,9 @@ Partial Class Form1
         '
         'SearchIsoBtn
         '
-        Me.SearchIsoBtn.Location = New System.Drawing.Point(239, 63)
+        Me.SearchIsoBtn.Location = New System.Drawing.Point(238, 32)
         Me.SearchIsoBtn.Name = "SearchIsoBtn"
-        Me.SearchIsoBtn.Size = New System.Drawing.Size(75, 23)
+        Me.SearchIsoBtn.Size = New System.Drawing.Size(75, 25)
         Me.SearchIsoBtn.TabIndex = 0
         Me.SearchIsoBtn.Text = "Search File"
         Me.SearchIsoBtn.UseVisualStyleBackColor = True
@@ -298,7 +331,7 @@ Partial Class Form1
         Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = False
         Me.Name = "Form1"
-        Me.Text = "Educatux Magic"
+        Me.Text = "Educatux USB Pen Drive Magic"
         Me.TabControl.ResumeLayout(False)
         Me.DownloadTab.ResumeLayout(False)
         Me.DownloadTab.PerformLayout()
@@ -340,4 +373,7 @@ Partial Class Form1
     Friend WithEvents AboutUsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripTextBoxPortuguese As ToolStripMenuItem
     Friend WithEvents ToolStripTextBoxEnglish As ToolStripMenuItem
+    Friend WithEvents SelectPenDriveLabel As Label
+    Friend WithEvents SelectIsoLabel As Label
+    Friend WithEvents DeviceComboBox As ComboBox
 End Class

@@ -1,13 +1,18 @@
-﻿Imports System.Net
+﻿
+Imports System.Net
 Imports Newtonsoft.Json
 Imports System.IO
+Imports System.IO.Compression
+Imports System.Text
 
 Public Class Form1
     Dim config As Config
     Dim languageCode As String
     Dim WithEvents client As New WebClient
-    Dim versionList As List(Of Version)
-    Dim versionSelected As Version
+    Dim versionList As New List(Of Version)
+    Dim versionSelected As Version = Nothing
+    Dim deviceList As New List(Of Device)
+    Dim deviceSelected As Device = Nothing
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -26,17 +31,41 @@ Public Class Form1
             noConnectionLabel.Visible = True
 
         Else
-
+            LoadDevicesCombo()
             advertisingImg.Visible = True
             BtnCancel.Enabled = False
             BtnDownload.Enabled = True
             LoadVersionCombo()
+            IsoFileNameTxt.Text = Nothing
             IsoFolderName.Text = Me.config.GetKeyValue("isoFolder")
             FolderBrowserDialog1.SelectedPath = IsoFolderName.Text
 
 
         End If
 
+    End Sub
+
+    Private Sub LoadDevicesCombo()
+        For Each di As System.IO.DriveInfo In My.Computer.FileSystem.Drives
+            If di.DriveType = IO.DriveType.Removable Then
+                'For Each di As DriveInfo In DriveInfo.GetDrives
+                Dim drivesList As List(Of String) = VolumeInfo.GetPhysicalDriveStrings(di)
+
+                Dim drives As New StringBuilder
+                If drivesList.Count > 0 Then
+                    For Each s As String In drivesList
+                        Dim dev As Device = New Device()
+                        dev.name = di.VolumeLabel.ToString
+                        dev.phisicalName = s
+                        dev.unit = di.RootDirectory.FullName
+                        dev.size = di.TotalSize
+                        DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.name & " - " & Util.FormatBytes(dev.size))
+                        deviceList.Add(dev)
+                    Next
+                End If
+            End If
+
+        Next
     End Sub
 
 
@@ -145,35 +174,47 @@ Public Class Form1
         ' OK button was pressed.
         If (result = DialogResult.OK) Then
             IsoFileNameTxt.Text = openIsoVersion.FileName
-            CreatePenDriveBtn.Enabled = True
-            'TODO Checksum validation
-            Try
-                ' Output the requested file in richTextBox1.
-                Dim s As Stream = openIsoVersion.OpenFile()
-                s.Close()
 
-
-            Catch exp As Exception
-                MessageBox.Show("An error occurred while attempting to load the file. The error is:" _
-                                + System.Environment.NewLine + exp.ToString() + System.Environment.NewLine)
-
-            End Try
-            Invalidate()
-
+            If Not IsNothing(deviceSelected) And Not String.IsNullOrEmpty(IsoFileNameTxt.Text) Then
+                CreatePenDriveBtn.Enabled = True
+            End If
 
             ' Cancel button was pressed.
         ElseIf (result = DialogResult.Cancel) Then
-            Return
+                Return
         End If
-
 
 
 
 
     End Sub
 
+    Private Function ChecksumValid(fileName As String) As Boolean
+        Dim availableChecksum = False
+        For Each version As Version In Me.versionList
+            MessageBox.Show(Util.sha_256(fileName) & " - " & version.checksum)
+
+            If String.Equals(Util.sha_256(fileName), version.checksum) Then
+                availableChecksum = True
+            End If
+        Next
+
+        Return availableChecksum
+    End Function
+
     Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
 
+        StartProcess()
+
+        'If ChecksumValid(openIsoVersion.FileName) Then
+        'Dim extractPath As String = Path.GetTempPath()
+        'ZipFile.ExtractToDirectory(openIsoVersion.FileName, extractPath)
+
+        'Else
+
+        'MessageBox.Show(config.GetTranslation(languageCode, "Iso file is corrupted. Try to download again."))
+
+        'End If
     End Sub
 
     Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxPortuguese.Click
@@ -203,13 +244,59 @@ Public Class Form1
         IsoFolderGroup.Text = config.GetTranslation(languageCode, "Iso Folder")
         IsoFolderName.Text = config.GetTranslation(languageCode, "Select a folder for iso")
         SeachIsoFolderBtn.Text = config.GetTranslation(languageCode, "Search Folder")
+        SelectIsoLabel.Text = config.GetTranslation(languageCode, "File of iso")
         IsoFileNameTxt.Text = config.GetTranslation(languageCode, "Select an iso file")
+        SelectPenDriveLabel.Text = config.GetTranslation(languageCode, "Pen Drive Unit")
         SearchIsoBtn.Text = config.GetTranslation(languageCode, "Search File")
-        CreatePenDriveBtn.Text = config.GetTranslation(languageCode, "Create a Pen Drive")
+        CreatePenDriveBtn.Text = config.GetTranslation(languageCode, "Create a PenDrive Educatux")
 
 
     End Sub
 
+    Public Sub StartProcess()
+
+        ' Define variables to track the peak
+        ' memory usage of the process.
+        Dim peakPagedMem As Long = 0
+        Dim peakWorkingSet As Long = 0
+        Dim peakVirtualMem As Long = 0
+
+        Dim myProcess As Process = Nothing
+
+        Try
+
+            ' Start the process.
+            myProcess = Process.Start("dd.exe", "if=" & deviceSelected.phisicalName & " of=" & IsoFileNameTxt.Text & " bs=1M --size --progress")
+
+            ' Display process statistics until
+            ' the user closes the program.
+            Do
+
+                If Not myProcess.HasExited Then
+                    If myProcess.Responding Then
+                        Console.WriteLine("Status = Running")
+                    Else
+                        MessageBox.Show("Process not responding...")
+                    End If
+                End If
+            Loop While Not myProcess.WaitForExit(1000)
+            MessageBox.Show("Process finished.")
+
+        Finally
+            If Not myProcess Is Nothing Then
+                myProcess.Close()
+            End If
+        End Try
+
+    End Sub
+
+    Private Sub DeviceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DeviceComboBox.SelectedIndexChanged
+        Me.deviceSelected = Me.deviceList(DeviceComboBox.SelectedIndex)
+        If Not IsNothing(deviceSelected) And Not String.IsNullOrEmpty(IsoFileNameTxt.Text) Then
+            CreatePenDriveBtn.Enabled = True
+        End If
+
+    End Sub
 End Class
 
 
@@ -222,4 +309,11 @@ Public Class Version
     Public Property size As String
     Public Property filename As String
 
+End Class
+
+Public Class Device
+    Public Property name As String
+    Public Property unit As String
+    Public Property phisicalName As String
+    Public Property size As ULong
 End Class
