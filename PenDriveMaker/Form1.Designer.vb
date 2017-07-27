@@ -30,6 +30,7 @@ Partial Class Form1
         Me.EducatuxVersionLabel = New System.Windows.Forms.Label()
         Me.TabControl = New System.Windows.Forms.TabControl()
         Me.DownloadTab = New System.Windows.Forms.TabPage()
+        Me.MeasuringTime = New System.Windows.Forms.Label()
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.DownloadingLabel = New System.Windows.Forms.Label()
         Me.MakePenDriveTab = New System.Windows.Forms.TabPage()
@@ -116,6 +117,7 @@ Partial Class Form1
         '
         'DownloadTab
         '
+        Me.DownloadTab.Controls.Add(Me.MeasuringTime)
         Me.DownloadTab.Controls.Add(Me.BtnCancel)
         Me.DownloadTab.Controls.Add(Me.DownloadingLabel)
         Me.DownloadTab.Controls.Add(Me.EducatuxVersionLabel)
@@ -130,6 +132,14 @@ Partial Class Form1
         Me.DownloadTab.TabIndex = 0
         Me.DownloadTab.Text = "Download"
         Me.DownloadTab.UseVisualStyleBackColor = True
+        '
+        'MeasuringTime
+        '
+        Me.MeasuringTime.AutoSize = True
+        Me.MeasuringTime.Location = New System.Drawing.Point(127, 21)
+        Me.MeasuringTime.Name = "MeasuringTime"
+        Me.MeasuringTime.Size = New System.Drawing.Size(0, 13)
+        Me.MeasuringTime.TabIndex = 8
         '
         'BtnCancel
         '
@@ -165,7 +175,7 @@ Partial Class Form1
         Me.MakePenDriveTab.Padding = New System.Windows.Forms.Padding(3)
         Me.MakePenDriveTab.Size = New System.Drawing.Size(334, 162)
         Me.MakePenDriveTab.TabIndex = 1
-        Me.MakePenDriveTab.Text = "Create a Pen Drive"
+        Me.MakePenDriveTab.Text = "Create Pen Drives"
         Me.MakePenDriveTab.UseVisualStyleBackColor = True
         '
         'SelectPenDriveLabel
@@ -328,6 +338,7 @@ Partial Class Form1
         Me.Controls.Add(Me.noConnectionLabel)
         Me.Controls.Add(Me.TabControl)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MainMenuStrip = Me.MenuStrip1
         Me.MaximizeBox = False
         Me.Name = "Form1"
@@ -376,4 +387,5 @@ Partial Class Form1
     Friend WithEvents SelectPenDriveLabel As Label
     Friend WithEvents SelectIsoLabel As Label
     Friend WithEvents DeviceComboBox As ComboBox
+    Friend WithEvents MeasuringTime As Label
 End Class

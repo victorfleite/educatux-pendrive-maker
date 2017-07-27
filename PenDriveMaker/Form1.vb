@@ -4,6 +4,7 @@ Imports Newtonsoft.Json
 Imports System.IO
 Imports System.IO.Compression
 Imports System.Text
+Imports System.Management
 
 Public Class Form1
     Dim config As Config
@@ -13,6 +14,9 @@ Public Class Form1
     Dim versionSelected As Version = Nothing
     Dim deviceList As New List(Of Device)
     Dim deviceSelected As Device = Nothing
+
+    Dim lastUpdate As DateTime
+    Dim lastBytes As Long = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -46,26 +50,49 @@ Public Class Form1
     End Sub
 
     Private Sub LoadDevicesCombo()
-        For Each di As System.IO.DriveInfo In My.Computer.FileSystem.Drives
-            If di.DriveType = IO.DriveType.Removable Then
-                'For Each di As DriveInfo In DriveInfo.GetDrives
-                Dim drivesList As List(Of String) = VolumeInfo.GetPhysicalDriveStrings(di)
 
-                Dim drives As New StringBuilder
-                If drivesList.Count > 0 Then
-                    For Each s As String In drivesList
-                        Dim dev As Device = New Device()
-                        dev.name = di.VolumeLabel.ToString
-                        dev.phisicalName = s
-                        dev.unit = di.RootDirectory.FullName
-                        dev.size = di.TotalSize
-                        DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.name & " - " & Util.FormatBytes(dev.size))
-                        deviceList.Add(dev)
-                    Next
-                End If
-            End If
+        Dim Scope As New ManagementScope("\\.\ROOT\cimv2")
 
+        'Get a result of WML query 
+        Dim Query As New ObjectQuery("SELECT Caption, DeviceID FROM Win32_DiskDrive WHERE InterfaceType='USB'")
+
+        'Create object searcher
+        Dim Searcher As New ManagementObjectSearcher(Scope, Query)
+
+        'Get a collection of WMI objects
+        Dim queryCollection As ManagementObjectCollection = Searcher.Get
+
+        'Enumerate wmi object 
+        For Each currentObject As ManagementObject In queryCollection
+            'write out some property value
+            Dim dev As Device = New Device()
+            dev.caption = currentObject("Caption").ToString
+            dev.phisicalName = currentObject("DeviceID").ToString()
+
+            DeviceComboBox.Items.Add("[" & dev.phisicalName & "] " & dev.caption)
+            deviceList.Add(dev)
         Next
+
+        'For Each di As System.IO.DriveInfo In My.Computer.FileSystem.Drives
+        '    If di.DriveType = IO.DriveType.Removable Then
+        '        'For Each di As DriveInfo In DriveInfo.GetDrives
+        '        Dim drivesList As List(Of String) = VolumeInfo.GetPhysicalDriveStrings(di)
+
+        '        Dim drives As New StringBuilder
+        '        If drivesList.Count > 0 Then
+        '            For Each s As String In drivesList
+        '                Dim dev As Device = New Device()
+        '                dev.name = di.VolumeLabel.ToString
+        '                dev.phisicalName = s
+        '                dev.unit = di.RootDirectory.FullName
+        '                dev.size = di.TotalSize
+        '                DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.name & " - " & Util.FormatBytes(dev.size))
+        '                deviceList.Add(dev)
+        '            Next
+        '        End If
+        '    End If
+
+        'Next
     End Sub
 
 
@@ -101,10 +128,35 @@ Public Class Form1
         Dim bytesIn As Double = Double.Parse(e.BytesReceived.ToString())
         Dim totalBytes As Double = Double.Parse(e.TotalBytesToReceive.ToString())
         Dim percentage As Double = bytesIn / totalBytes * 100
+
+
+
         progressBarLabel.Text = Util.FormatBytes(bytesIn) & "/" & Util.FormatBytes(totalBytes)
         progressBar.Value = Integer.Parse(Math.Truncate(percentage).ToString())
 
+        'MeasuringTime.Text = GetBytesPerSecond(bytesIn).ToString & " B/s"
     End Sub
+
+    Private Function GetBytesPerSecond(bytes As Long) As Long
+        Dim bytesPerSecond As Long = 0
+        If lastBytes = 0 Then
+            lastUpdate = DateTime.Now
+            lastBytes = bytes
+            Return 0
+        End If
+
+        Dim now = DateTime.Now
+        Dim timeSpan = now - lastUpdate
+        If Not timeSpan.Seconds = 0 Then
+            Dim bytesChange = bytes - lastBytes
+            bytesPerSecond = (bytesChange / timeSpan.Seconds)
+            lastBytes = bytes
+            lastUpdate = now
+            Return bytesChange / timeSpan.Seconds
+        End If
+        Return bytesPerSecond
+    End Function
+
 
     Private Sub client_DownloadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 
@@ -205,6 +257,8 @@ Public Class Form1
     Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
 
         StartProcess()
+        'Dim CreatePenDriveForm As New Form2()
+        'CreatePenDriveForm.Show()
 
         'If ChecksumValid(openIsoVersion.FileName) Then
         'Dim extractPath As String = Path.GetTempPath()
@@ -236,7 +290,7 @@ Public Class Form1
         ContactToolStripMenuItem.Text = config.GetTranslation(languageCode, "Contact")
         AboutUsToolStripMenuItem.Text = config.GetTranslation(languageCode, "About us")
         DownloadTab.Text = config.GetTranslation(languageCode, "Download")
-        MakePenDriveTab.Text = config.GetTranslation(languageCode, "Create a Pen Drive")
+        MakePenDriveTab.Text = config.GetTranslation(languageCode, "Create Pen Drives")
         DownloadingLabel.Text = config.GetTranslation(languageCode, "Downloading...")
         EducatuxVersionLabel.Text = config.GetTranslation(languageCode, "Educatux Versions")
         BtnCancel.Text = config.GetTranslation(languageCode, "Cancel")
@@ -266,7 +320,9 @@ Public Class Form1
         Try
 
             ' Start the process.
-            myProcess = Process.Start("dd.exe", "if=" & deviceSelected.phisicalName & " of=" & IsoFileNameTxt.Text & " bs=1M --size --progress")
+            MessageBox.Show("dd.exe if=" & IsoFileNameTxt.Text & " of=" & deviceSelected.phisicalName & " bs=1M --size --progress")
+
+            'myProcess = Process.Start("dd.exe", "if=" & IsoFileNameTxt.Text & " of=" & deviceSelected.phisicalName & " bs=1M --size --progress")
 
             ' Display process statistics until
             ' the user closes the program.
@@ -297,6 +353,8 @@ Public Class Form1
         End If
 
     End Sub
+
+
 End Class
 
 
@@ -312,8 +370,6 @@ Public Class Version
 End Class
 
 Public Class Device
-    Public Property name As String
-    Public Property unit As String
+    Public Property caption As String
     Public Property phisicalName As String
-    Public Property size As ULong
 End Class
