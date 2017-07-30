@@ -7,6 +7,7 @@ Imports System.Text
 Imports System.Management
 
 Public Class Form1
+    Dim localPath As String
     Dim config As Config
     Dim languageCode As String
     Dim WithEvents client As New WebClient
@@ -19,6 +20,9 @@ Public Class Form1
     Dim lastBytes As Long = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim P As String = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)
+        Me.localPath = New Uri(P).LocalPath
 
         Me.languageCode = "pt_BR"
         Me.config = New Config()
@@ -54,8 +58,8 @@ Public Class Form1
         Dim Scope As New ManagementScope("\\.\ROOT\cimv2")
 
         'Get a result of WML query 
-        Dim Query As New ObjectQuery("SELECT Caption, DeviceID FROM Win32_DiskDrive WHERE InterfaceType='USB'")
-
+        Dim Query As New ObjectQuery("SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB' AND Status='OK'")
+        'Index, Caption, Name, DeviceID, Size
         'Create object searcher
         Dim Searcher As New ManagementObjectSearcher(Scope, Query)
 
@@ -66,10 +70,12 @@ Public Class Form1
         For Each currentObject As ManagementObject In queryCollection
             'write out some property value
             Dim dev As Device = New Device()
+            dev.index = currentObject("Index").ToString
             dev.caption = currentObject("Caption").ToString
+            dev.unit = currentObject("Name").ToString
             dev.phisicalName = currentObject("DeviceID").ToString()
-
-            DeviceComboBox.Items.Add("[" & dev.phisicalName & "] " & dev.caption)
+            dev.size = currentObject("Size")
+            DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.caption & " - " & Util.FormatBytes(dev.size).ToString())
             deviceList.Add(dev)
         Next
 
@@ -233,7 +239,7 @@ Public Class Form1
 
             ' Cancel button was pressed.
         ElseIf (result = DialogResult.Cancel) Then
-                Return
+            Return
         End If
 
 
@@ -309,6 +315,17 @@ Public Class Form1
 
     Public Sub StartProcess()
 
+
+        Dim WshShell = CreateObject("WScript.Shell")
+
+        Dim Command1
+        Command1 = "diskpart select disk " & deviceSelected.index & " clean exit"
+
+        Dim Result
+        MessageBox.Show(Command1)
+        Result = WshShell.Run(Command1, 1, True)
+
+
         ' Define variables to track the peak
         ' memory usage of the process.
         Dim peakPagedMem As Long = 0
@@ -319,10 +336,14 @@ Public Class Form1
 
         Try
 
-            ' Start the process.
-            MessageBox.Show("dd.exe if=" & IsoFileNameTxt.Text & " of=" & deviceSelected.phisicalName & " bs=1M --size --progress")
+            'C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\bin\Debug\dd.exe' if='C:\Users\Aderbal Botelho\Downloads\debian-9.1.0-amd64-DVD-1.iso' of=\\?\Device\Harddisk1\Partition0
+            Dim options As String = "if=" & IsoFileNameTxt.Text & " of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress"
+            Dim executable As String = Me.localPath & "\" & "dd.exe"
 
-            'myProcess = Process.Start("dd.exe", "if=" & IsoFileNameTxt.Text & " of=" & deviceSelected.phisicalName & " bs=1M --size --progress")
+            ' Start the process.
+            MessageBox.Show(executable & " " & options)
+
+            myProcess = Process.Start(executable, options)
 
             ' Display process statistics until
             ' the user closes the program.
@@ -370,6 +391,9 @@ Public Class Version
 End Class
 
 Public Class Device
+    Public Property index As Integer
+    Public Property unit As String
     Public Property caption As String
     Public Property phisicalName As String
+    Public Property size As Long
 End Class
