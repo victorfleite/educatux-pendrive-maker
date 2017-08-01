@@ -328,29 +328,53 @@ Public Class Form1
 
         ' Define variables to track the peak
         ' memory usage of the process.
-        Dim peakPagedMem As Long = 0
-        Dim peakWorkingSet As Long = 0
-        Dim peakVirtualMem As Long = 0
 
 
         Try
 
+            'Diskpart call
+            Dim script As String = """" & Me.localPath & "\scripts\" & "dispart.txt"""
+            Dim logfile As String = """" & Me.localPath & "\scripts\" & "logfile.txt"""
+            Dim dispart As String = "diskpart /s " & script & " > " & logfile
+            'MessageBox.Show(dispart)
+            Extensions.RunCMD(dispart, True, True, True)
+
             'C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\bin\Debug\dd.exe' if='C:\Users\Aderbal Botelho\Downloads\debian-9.1.0-amd64-DVD-1.iso' of=\\?\Device\Harddisk1\Partition0
-            Dim executable As String = Me.localPath & "\" & "dd.exe"
+            Dim executable As String = """" & Me.localPath & "\" & "dd.exe"""
             'Dim parameters As String = "if=" & IsoFileNameTxt.Text & ",of=\\.\" & deviceSelected.unit.ToLower() & ",bs=1M,--size,--progress"
             'Dim parameters As String = " if=" & IsoFileNameTxt.Text & ", of=\\.\g:, bs=1M, --size, --progress"
-            Dim parameters As String = "if=E:\educatux\e.iso"
-            MessageBox.Show(executable)
-            MessageBox.Show(parameters)
+            Dim parameters As String = "if=E:\educatux\e.iso of=\\.\f: bs=1M --size --progress"
 
-            Dim info As New ProcessStartInfo()
-            info.FileName = executable
-            info.WorkingDirectory = Me.localPath
-            info.UseShellExecute = True
-            info.WindowStyle = ProcessWindowStyle.Normal
-            info.Arguments = parameters
-            Process.Start(info)
 
+            Dim command As String = executable & " " & parameters
+            'MessageBox.Show(command)
+            Extensions.RunCMD(command, True, True, True)
+
+
+            'Dim compiler As New Process()
+            'compiler.StartInfo.FileName = executable '"vbc.exe"
+            'compiler.StartInfo.Arguments = parameters '"/reference:Microsoft.VisualBasic.dll /out:sample.exe stdstr.vb"
+            'compiler.StartInfo.UseShellExecute = False
+            'compiler.StartInfo.RedirectStandardOutput = True
+            'compiler.Start()
+            'Dim p As New Process
+            'Dim psi As New ProcessStartInfo(executable, parameters)
+            'p.StartInfo = psi
+            'p.Start()
+            'p.WaitForExit()
+
+            'Dim comando As String = executable & " " & parameters & " /f"
+
+            'Shell("cmd.exe /c " & comando)
+            'MessageBox.Show(comando)
+
+            'Dim procID As Integer
+            ' Run calculator.
+            'procID = Shell(comando, AppWinStyle.NormalFocus, True, -1)
+
+            'MessageBox.Show(compiler.StandardOutput.ReadToEnd())
+
+            'compiler.WaitForExit()
 
             '' Display process statistics until
             '' the user closes the program.

@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiRest.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
