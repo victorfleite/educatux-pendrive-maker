@@ -1,0 +1,1 @@
+"C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\dd.exe" if="E:\educatux\e.iso" of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress

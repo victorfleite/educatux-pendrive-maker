@@ -262,7 +262,12 @@ Public Class Form1
 
     Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
 
-        StartProcess()
+        Dim BatchFullName As String = """" & Me.localPath & "\assets\" & "dd.bat"""
+
+        Extensions.RunCMD(BatchFullName, False, True, False)
+
+
+        'StartProcess()
         'Dim CreatePenDriveForm As New Form2()
         'CreatePenDriveForm.Show()
 
@@ -333,17 +338,17 @@ Public Class Form1
         Try
 
             'Diskpart call
-            Dim script As String = """" & Me.localPath & "\scripts\" & "dispart.txt"""
+            Dim script As String = """" & Me.localPath & "\scripts\" & "diskpart.txt"""
             Dim logfile As String = """" & Me.localPath & "\scripts\" & "logfile.txt"""
             Dim dispart As String = "diskpart /s " & script & " > " & logfile
             'MessageBox.Show(dispart)
-            Extensions.RunCMD(dispart, True, True, True)
+            Extensions.RunCMD(dispart, False, True, False)
 
             'C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\bin\Debug\dd.exe' if='C:\Users\Aderbal Botelho\Downloads\debian-9.1.0-amd64-DVD-1.iso' of=\\?\Device\Harddisk1\Partition0
             Dim executable As String = """" & Me.localPath & "\" & "dd.exe"""
             'Dim parameters As String = "if=" & IsoFileNameTxt.Text & ",of=\\.\" & deviceSelected.unit.ToLower() & ",bs=1M,--size,--progress"
             'Dim parameters As String = " if=" & IsoFileNameTxt.Text & ", of=\\.\g:, bs=1M, --size, --progress"
-            Dim parameters As String = "if=E:\educatux\e.iso of=\\.\f: bs=1M --size --progress"
+            Dim parameters As String = "if=E:\educatux\e.iso of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
 
 
             Dim command As String = executable & " " & parameters
