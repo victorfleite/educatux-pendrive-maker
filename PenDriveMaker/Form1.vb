@@ -262,12 +262,12 @@ Public Class Form1
 
     Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
 
-        Dim BatchFullName As String = """" & Me.localPath & "\assets\" & "dd.bat"""
+        ' Dim BatchFullName As String = """" & Me.localPath & "\assets\" & "dd.bat"""
 
-        Extensions.RunCMD(BatchFullName, False, True, False)
+        'Extensions.RunCMD(BatchFullName, False, True, False)
 
 
-        'StartProcess()
+        StartProcess()
         'Dim CreatePenDriveForm As New Form2()
         'CreatePenDriveForm.Show()
 

@@ -1,4 +1,4 @@
 select disk 1
 clean
 create partition primary
-format fs=ntfs quick label=""Test do victor""
+format fs=ntfs quick
