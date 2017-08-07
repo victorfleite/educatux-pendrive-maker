@@ -5,9 +5,5 @@ No computador: FLEITE-PC
 
 O disco 1 Ç o disco selecionado.
 
-DiskPart est† limpando o disco.
-
-DiskPart criou com àxito a partiá∆o especificada.
-
-Os argumentos especificados para esse comando n∆o s∆o v†lidos.
-Para obter mais informaá‰es sobre o comando, digite: HELP FORMAT
+O DiskPart encontrou um erro: Acesso negado.
+Consulte o Log de Eventos do Sistema para obter mais informaá‰es.

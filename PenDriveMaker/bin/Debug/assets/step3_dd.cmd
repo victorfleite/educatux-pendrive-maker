@@ -1,6 +1,5 @@
 @echo off
-cls 
-set "CMD=C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\dd.exe"
-set "ISO=C:\Users\Aderbal Botelho\Downloads\educatux_8gb_multilazer.bin"
+set "CMD=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\dd.exe"
+set "ISO=e:\educatux\e.iso"
 echo cmd /K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=4M --size --progress"
 cmd /K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=4M --size --progress"
