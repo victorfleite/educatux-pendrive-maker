@@ -1,3 +1,0 @@
-
-C:\Users\fleite\documents\visual studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug>echo "Aleluia" 
-"Aleluia"

@@ -7,6 +7,9 @@ Imports System.Text
 Imports System.Management
 
 Public Class Form1
+
+    Public Const ASSETS_NAME_FOLDER As String = "\assets\"
+
     Dim localPath As String
     Dim config As Config
     Dim languageCode As String
@@ -15,6 +18,9 @@ Public Class Form1
     Dim versionSelected As Version = Nothing
     Dim deviceList As New List(Of Device)
     Dim deviceSelected As Device = Nothing
+
+
+
 
     Dim lastUpdate As DateTime
     Dim lastBytes As Long = 0
@@ -55,52 +61,47 @@ Public Class Form1
 
     Private Sub LoadDevicesCombo()
 
-        Dim Scope As New ManagementScope("\\.\ROOT\cimv2")
+        Dim query
+        Dim objWMI
+        Dim diskDrives
+        Dim diskDrive
+        Dim partitions
+        Dim partition ' will contain the drive & partition numbers
+        Dim logicalDisks
+        Dim logicalDisk ' will contain the drive letter
+        Dim partitionIndex As Integer = 1
+        Dim logicIndex As Integer = 1
 
-        'Get a result of WML query 
-        Dim Query As New ObjectQuery("SELECT * FROM Win32_Volume WHERE DriveType=2")
-        'Index, Caption, Name, DeviceID, Size
-        'Create object searcher
-        Dim Searcher As New ManagementObjectSearcher(Scope, Query)
+        objWMI = GetObject("winmgmts:\\.\root\cimv2")
+        diskDrives = objWMI.ExecQuery("SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'") ' First get out the physical drives
+        For Each diskDrive In diskDrives
+            query = "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='" + diskDrive.DeviceID + "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition" ' link the physical drives to the partitions
+            partitions = objWMI.ExecQuery(query)
+            partitionIndex = 1
+            For Each partition In partitions
+                If (partitionIndex = 1) Then
+                    query = "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='" + partition.DeviceID + "'} WHERE AssocClass = Win32_LogicalDiskToPartition"  ' link the partitions to the logical disks 
+                    logicalDisks = objWMI.ExecQuery(query)
+                    logicIndex = 1
+                    For Each logicalDisk In logicalDisks
+                        If (logicIndex = 1) Then
+                            'MessageBox.Show(logicalDisk.DeviceID & " - " & partition.Caption & " - " & diskDrive.Size)
 
-        'Get a collection of WMI objects
-        Dim queryCollection As ManagementObjectCollection = Searcher.Get
-
-        'Enumerate wmi object 
-        For Each currentObject As ManagementObject In queryCollection
-            'write out some property value
-            Dim dev As Device = New Device()
-            'dev.index = currentObject("Index").ToString
-            dev.caption = currentObject("Caption").ToString
-            dev.unit = currentObject("Caption").ToString
-            dev.phisicalName = currentObject("DeviceID").ToString()
-            'dev.size = currentObject("Size")
-            DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.caption)
-            deviceList.Add(dev)
+                            Dim dev As Device = New Device()
+                            dev.index = diskDrive.Index
+                            dev.caption = diskDrive.Model
+                            dev.unit = logicalDisk.DeviceID
+                            dev.phisicalName = diskDrive.DeviceID
+                            dev.size = diskDrive.Size
+                            DeviceComboBox.Items.Add("( " & dev.unit & " ) " & dev.caption.Substring(0, 20) & " / " & Util.FormatBytes(dev.size))
+                            deviceList.Add(dev)
+                        End If
+                    Next
+                End If
+            Next
         Next
 
-        'For Each di As System.IO.DriveInfo In My.Computer.FileSystem.Drives
-        '    If di.DriveType = IO.DriveType.Removable Then
-        '        'For Each di As DriveInfo In DriveInfo.GetDrives
-        '        Dim drivesList As List(Of String) = VolumeInfo.GetPhysicalDriveStrings(di)
-
-        '        Dim drives As New StringBuilder
-        '        If drivesList.Count > 0 Then
-        '            For Each s As String In drivesList
-        '                Dim dev As Device = New Device()
-        '                dev.name = di.VolumeLabel.ToString
-        '                dev.phisicalName = s
-        '                dev.unit = di.RootDirectory.FullName
-        '                dev.size = di.TotalSize
-        '                DeviceComboBox.Items.Add("[" & dev.unit & "] " & dev.name & " - " & Util.FormatBytes(dev.size))
-        '                deviceList.Add(dev)
-        '            Next
-        '        End If
-        '    End If
-
-        'Next
     End Sub
-
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
     Handles BtnDownload.Click
@@ -262,63 +263,32 @@ Public Class Form1
 
     Private Sub Button1_Click_2(sender As Object, e As EventArgs) Handles CreatePenDriveBtn.Click
 
-        ' Dim BatchFullName As String = """" & Me.localPath & "\assets\" & "dd.bat"""
+        'Create assets if not exists
+        Dim assets = localPath & ASSETS_NAME_FOLDER
+        If Not Directory.Exists(assets) Then
+            Directory.CreateDirectory(assets)
+        End If
 
-        'Extensions.RunCMD(BatchFullName, False, True, False)
+        Dim tmpFolder = assets & Util.GenerateHash()
+        If Not Directory.Exists(tmpFolder) Then
+            Directory.CreateDirectory(tmpFolder)
+        End If
 
+        Dim cmd1 As String = CreateCmdStep1(tmpFolder)
+        'MessageBox.Show(cmd1)
+        RunProcess(cmd1, False, False, False)
 
-        StartProcess()
-        'Dim CreatePenDriveForm As New Form2()
-        'CreatePenDriveForm.Show()
+        Dim cmd2 As String = CreateCmdStep2(tmpFolder)
+        'MessageBox.Show(cmd2)
+        RunProcess(cmd2, True, False, False)
 
-        'If ChecksumValid(openIsoVersion.FileName) Then
-        'Dim extractPath As String = Path.GetTempPath()
-        'ZipFile.ExtractToDirectory(openIsoVersion.FileName, extractPath)
-
-        'Else
-
-        'MessageBox.Show(config.GetTranslation(languageCode, "Iso file is corrupted. Try to download again."))
-
-        'End If
-    End Sub
-
-    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxPortuguese.Click
-        languageCode = "pt_BR"
-        TranslateAll(languageCode)
-    End Sub
-
-    Private Sub ToolStripTextBox2_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxEnglish.Click
-        languageCode = "en"
-        TranslateAll(languageCode)
-    End Sub
-
-    Private Sub TranslateAll(languageCode As String)
-
-        'Menu
-        ToolStripMenuItem1.Text = config.GetTranslation(languageCode, "Language")
-        ToolStripTextBoxPortuguese.Text = config.GetTranslation(languageCode, "Portuguese")
-        ToolStripTextBoxEnglish.Text = config.GetTranslation(languageCode, "English")
-        ContactToolStripMenuItem.Text = config.GetTranslation(languageCode, "Contact")
-        AboutUsToolStripMenuItem.Text = config.GetTranslation(languageCode, "About us")
-        DownloadTab.Text = config.GetTranslation(languageCode, "Download")
-        MakePenDriveTab.Text = config.GetTranslation(languageCode, "Create Pen Drives")
-        DownloadingLabel.Text = config.GetTranslation(languageCode, "Downloading...")
-        EducatuxVersionLabel.Text = config.GetTranslation(languageCode, "Educatux Versions")
-        BtnCancel.Text = config.GetTranslation(languageCode, "Cancel")
-        BtnDownload.Text = config.GetTranslation(languageCode, "Download")
-        IsoFolderGroup.Text = config.GetTranslation(languageCode, "Iso Folder")
-        IsoFolderName.Text = config.GetTranslation(languageCode, "Select a folder for iso")
-        SeachIsoFolderBtn.Text = config.GetTranslation(languageCode, "Search Folder")
-        SelectIsoLabel.Text = config.GetTranslation(languageCode, "File of iso")
-        IsoFileNameTxt.Text = config.GetTranslation(languageCode, "Select an iso file")
-        SelectPenDriveLabel.Text = config.GetTranslation(languageCode, "Pen Drive Unit")
-        SearchIsoBtn.Text = config.GetTranslation(languageCode, "Search File")
-        CreatePenDriveBtn.Text = config.GetTranslation(languageCode, "Create a PenDrive Educatux")
-
+        Dim cmd3 As String = CreateCmdStep3(tmpFolder)
+        'MessageBox.Show(cmd3)
+        RunProcess(cmd3, True, True, True)
 
     End Sub
 
-    Public Sub StartProcess()
+    Public Sub RunProcess(cmd As String, showWindow As Boolean, waitProcess As Boolean, permanent As Boolean)
 
 
         'Dim WshShell = CreateObject("WScript.Shell")
@@ -338,22 +308,22 @@ Public Class Form1
         Try
 
             'Diskpart call
-            Dim script As String = """" & Me.localPath & "\scripts\" & "diskpart.txt"""
-            Dim logfile As String = """" & Me.localPath & "\scripts\" & "logfile.txt"""
-            Dim dispart As String = "diskpart /s " & script & " > " & logfile
+            'Dim script As String = """" & Me.localPath & "\scripts\" & "diskpart.txt"""
+            'Dim logfile As String = """" & Me.localPath & "\scripts\" & "logfile.txt"""
+            'Dim dispart As String = "diskpart /s " & script & " > " & logfile
             'MessageBox.Show(dispart)
-            Extensions.RunCMD(dispart, False, True, False)
+            'Extensions.RunCMD(dispart, False, True, False)
 
             'C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\bin\Debug\dd.exe' if='C:\Users\Aderbal Botelho\Downloads\debian-9.1.0-amd64-DVD-1.iso' of=\\?\Device\Harddisk1\Partition0
-            Dim executable As String = """" & Me.localPath & "\" & "dd.exe"""
+            'Dim executable As String = """" & Me.localPath & "\" & "dd.exe"""
             'Dim parameters As String = "if=" & IsoFileNameTxt.Text & ",of=\\.\" & deviceSelected.unit.ToLower() & ",bs=1M,--size,--progress"
             'Dim parameters As String = " if=" & IsoFileNameTxt.Text & ", of=\\.\g:, bs=1M, --size, --progress"
-            Dim parameters As String = "if=E:\educatux\e.iso of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
+            'Dim parameters As String = "if=E:\educatux\e.iso of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
 
 
-            Dim command As String = executable & " " & parameters
+            'Dim command As String = executable & " " & parameters
             'MessageBox.Show(command)
-            Extensions.RunCMD(command, True, True, True)
+            Extensions.RunCMD("""" & cmd & """", showWindow, waitProcess, permanent)
 
 
             'Dim compiler As New Process()
@@ -403,12 +373,134 @@ Public Class Form1
 
     End Sub
 
+    Private Function CreateCmdStep1(tmpFolder As String)
+
+        '@echo off
+        'set "CMD=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\dd.exe"
+        'echo cmd /K ""%CMD%" if=\dev\zero of=\\?\Device\Harddisk1\Partition0 bs=512 count=1 --size --progress"
+        'cmd /K ""%CMD%" if=/dev/zero of=\\?\Device\Harddisk1\Partition0 bs=512 count=1 --size --progress"
+
+        Dim sb As New System.Text.StringBuilder
+
+        sb.AppendLine("@echo off")
+        sb.AppendLine("cls()")
+        sb.AppendLine("set ""CMD=" & localPath & "\dd.exe""")
+        sb.AppendLine("echo cmd /K """"%CMD%"" if=\dev\zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
+        sb.AppendLine("cmd /K """"%CMD%"" if=/dev/zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
+        Dim name As String = tmpFolder & "\step1_dd_zero.cmd"
+        IO.File.WriteAllText(name, sb.ToString())
+        Return name
+    End Function
+
+    Private Function CreateCmdStep2(tmpFolder As String) As String
+
+
+        'Diskpart commands
+        'Select disk 1
+        'clean
+        'create Partition primary
+        'Format fs = ntfs quick
+
+        Dim sb1 As New System.Text.StringBuilder
+        sb1.AppendLine("Select disk " & deviceSelected.index)
+        sb1.AppendLine("clean")
+        sb1.AppendLine("create Partition primary")
+        'sb1.AppendLine("Format fs = ntfs quick")
+
+        IO.File.WriteAllText(tmpFolder & "\diskpart_commands.txt", sb1.ToString())
+
+
+        '@echo off
+        'set "COMMANDS=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\assets\diskpart_commands.txt"
+        'set "LOGFILE=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\assets\logfile.txt"
+        'diskpart / s "%COMMANDS%" > "%LOGFILE%" 
+
+        Dim sb2 As New System.Text.StringBuilder
+        sb2.AppendLine("@echo off")
+        sb2.AppendLine("cls()")
+        sb2.AppendLine("set ""COMMANDS=" & tmpFolder & "\diskpart_commands.txt""")
+        sb2.AppendLine("set ""LOGFILE=" & tmpFolder & "\diskpart_logfile.txt""")
+        sb2.AppendLine("diskpart /s ""%COMMANDS%"" > ""%LOGFILE%""")
+        Dim name As String = tmpFolder & "\step2_diskpart.cmd"
+        IO.File.WriteAllText(name, sb2.ToString())
+        Return name
+
+    End Function
+
+
+    Private Function CreateCmdStep3(tmpFolder As String)
+
+        '@echo off
+        'set "CMD=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\dd.exe"
+        'set "ISO=e:\educatux\e.iso"
+        'echo cmd / K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
+        'cmd / K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
+
+        Dim sb As New System.Text.StringBuilder
+
+        sb.AppendLine("@echo off")
+        sb.AppendLine("cls()")
+        sb.AppendLine("set ""CMD=" & localPath & "\dd.exe""")
+        sb.AppendLine("set ""ISO=" & IsoFileNameTxt.Text & """")
+        sb.AppendLine("echo cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
+        sb.AppendLine("cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
+        Dim name As String = tmpFolder & "\step3_dd.cmd"
+        IO.File.WriteAllText(name, sb.ToString())
+        Return Name
+
+    End Function
+
+
+    Private Sub ToolStripTextBox1_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxPortuguese.Click
+        languageCode = "pt_BR"
+        TranslateAll(languageCode)
+    End Sub
+
+    Private Sub ToolStripTextBox2_Click(sender As Object, e As EventArgs) Handles ToolStripTextBoxEnglish.Click
+        languageCode = "en"
+        TranslateAll(languageCode)
+    End Sub
+
+    Private Sub TranslateAll(languageCode As String)
+
+        'Menu
+        ToolStripMenuItem1.Text = config.GetTranslation(languageCode, "Language")
+        ToolStripTextBoxPortuguese.Text = config.GetTranslation(languageCode, "Portuguese")
+        ToolStripTextBoxEnglish.Text = config.GetTranslation(languageCode, "English")
+        ContactToolStripMenuItem.Text = config.GetTranslation(languageCode, "Contact")
+        AboutUsToolStripMenuItem.Text = config.GetTranslation(languageCode, "About us")
+        DownloadTab.Text = config.GetTranslation(languageCode, "Download")
+        MakePenDriveTab.Text = config.GetTranslation(languageCode, "Create Pen Drives")
+        DownloadingLabel.Text = config.GetTranslation(languageCode, "Downloading...")
+        EducatuxVersionLabel.Text = config.GetTranslation(languageCode, "Educatux Versions")
+        BtnCancel.Text = config.GetTranslation(languageCode, "Cancel")
+        BtnDownload.Text = config.GetTranslation(languageCode, "Download")
+        IsoFolderGroup.Text = config.GetTranslation(languageCode, "Iso Folder")
+        IsoFolderName.Text = config.GetTranslation(languageCode, "Select a folder for iso")
+        SeachIsoFolderBtn.Text = config.GetTranslation(languageCode, "Search Folder")
+        SelectIsoLabel.Text = config.GetTranslation(languageCode, "File of iso")
+        IsoFileNameTxt.Text = config.GetTranslation(languageCode, "Select an iso file")
+        SelectPenDriveLabel.Text = config.GetTranslation(languageCode, "Pen Drive Unit")
+        SearchIsoBtn.Text = config.GetTranslation(languageCode, "Search File")
+        CreatePenDriveBtn.Text = config.GetTranslation(languageCode, "Create a PenDrive Educatux")
+        RefreshBtn.Text = config.GetTranslation(languageCode, "Refresh")
+
+
+    End Sub
+
+
+
     Private Sub DeviceComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DeviceComboBox.SelectedIndexChanged
         Me.deviceSelected = Me.deviceList(DeviceComboBox.SelectedIndex)
         If Not IsNothing(deviceSelected) And Not String.IsNullOrEmpty(IsoFileNameTxt.Text) Then
             CreatePenDriveBtn.Enabled = True
         End If
 
+    End Sub
+
+    Private Sub Button1_Click_3(sender As Object, e As EventArgs) Handles RefreshBtn.Click
+        DeviceComboBox.Items.Clear()
+        LoadDevicesCombo()
     End Sub
 
 

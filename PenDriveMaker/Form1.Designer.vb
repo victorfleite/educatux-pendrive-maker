@@ -5,6 +5,9 @@ Partial Class Form1
     'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Dim assets = localPath & ASSETS_NAME_FOLDER
+        Dim di As New IO.DirectoryInfo(assets)
+        di.Delete(True)
         Try
             If disposing AndAlso components IsNot Nothing Then
                 components.Dispose()
@@ -34,6 +37,7 @@ Partial Class Form1
         Me.BtnCancel = New System.Windows.Forms.Button()
         Me.DownloadingLabel = New System.Windows.Forms.Label()
         Me.MakePenDriveTab = New System.Windows.Forms.TabPage()
+        Me.RefreshBtn = New System.Windows.Forms.Button()
         Me.SelectPenDriveLabel = New System.Windows.Forms.Label()
         Me.SelectIsoLabel = New System.Windows.Forms.Label()
         Me.DeviceComboBox = New System.Windows.Forms.ComboBox()
@@ -164,6 +168,7 @@ Partial Class Form1
         'MakePenDriveTab
         '
         Me.MakePenDriveTab.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.MakePenDriveTab.Controls.Add(Me.RefreshBtn)
         Me.MakePenDriveTab.Controls.Add(Me.SelectPenDriveLabel)
         Me.MakePenDriveTab.Controls.Add(Me.SelectIsoLabel)
         Me.MakePenDriveTab.Controls.Add(Me.DeviceComboBox)
@@ -177,6 +182,15 @@ Partial Class Form1
         Me.MakePenDriveTab.TabIndex = 1
         Me.MakePenDriveTab.Text = "Create Pen Drives"
         Me.MakePenDriveTab.UseVisualStyleBackColor = True
+        '
+        'RefreshBtn
+        '
+        Me.RefreshBtn.Location = New System.Drawing.Point(258, 76)
+        Me.RefreshBtn.Name = "RefreshBtn"
+        Me.RefreshBtn.Size = New System.Drawing.Size(55, 23)
+        Me.RefreshBtn.TabIndex = 6
+        Me.RefreshBtn.Text = "Refresh"
+        Me.RefreshBtn.UseVisualStyleBackColor = True
         '
         'SelectPenDriveLabel
         '
@@ -201,7 +215,7 @@ Partial Class Form1
         Me.DeviceComboBox.FormattingEnabled = True
         Me.DeviceComboBox.Location = New System.Drawing.Point(16, 78)
         Me.DeviceComboBox.Name = "DeviceComboBox"
-        Me.DeviceComboBox.Size = New System.Drawing.Size(297, 21)
+        Me.DeviceComboBox.Size = New System.Drawing.Size(239, 21)
         Me.DeviceComboBox.TabIndex = 3
         '
         'CreatePenDriveBtn
@@ -388,4 +402,5 @@ Partial Class Form1
     Friend WithEvents SelectIsoLabel As Label
     Friend WithEvents DeviceComboBox As ComboBox
     Friend WithEvents MeasuringTime As Label
+    Friend WithEvents RefreshBtn As Button
 End Class

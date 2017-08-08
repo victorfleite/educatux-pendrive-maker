@@ -118,4 +118,15 @@ Module Util
         Return hash_generator("sha256", file_name)
     End Function
 
+    Function GenerateHash()
+        Dim s As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        Dim r As New Random
+        Dim sb As New System.Text.StringBuilder
+        For i As Integer = 1 To 8
+            Dim idx As Integer = r.Next(0, 35)
+            sb.Append(s.Substring(idx, 1))
+        Next
+        Return sb.ToString()
+    End Function
+
 End Module

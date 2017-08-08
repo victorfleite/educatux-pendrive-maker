@@ -1,9 +1,0 @@
-
-Microsoft DiskPart vers∆o 6.1.7601
-Copyright (C) 1999-2008 Microsoft Corporation.
-No computador: FLEITE-PC
-
-O disco 1 Ç o disco selecionado.
-
-O DiskPart encontrou um erro: Acesso negado.
-Consulte o Log de Eventos do Sistema para obter mais informaá‰es.
