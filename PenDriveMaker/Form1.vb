@@ -274,106 +274,21 @@ Public Class Form1
             Directory.CreateDirectory(tmpFolder)
         End If
 
-        Dim cmd1 As String = CreateCmdStep1(tmpFolder)
-        'MessageBox.Show(cmd1)
-        RunProcess(cmd1, False, False, False)
-
-        Dim cmd2 As String = CreateCmdStep2(tmpFolder)
-        'MessageBox.Show(cmd2)
-        RunProcess(cmd2, True, False, False)
-
-        Dim cmd3 As String = CreateCmdStep3(tmpFolder)
-        'MessageBox.Show(cmd3)
-        RunProcess(cmd3, True, True, True)
+        Dim cmd As String = CreateCmdStep(tmpFolder)
+        'MessageBox.Show(cmd)
+        RunProcess(cmd, True, True, True)
 
     End Sub
 
     Public Sub RunProcess(cmd As String, showWindow As Boolean, waitProcess As Boolean, permanent As Boolean)
-
-
-        'Dim WshShell = CreateObject("WScript.Shell")
-
-        'Dim Command1
-        'Command1 = "diskpart select disk " & deviceSelected.index & " clean exit"
-
-        'Dim Result
-        'MessageBox.Show(Command1)
-        'Result = WshShell.Run(Command1, 1, True)
-
-
-        ' Define variables to track the peak
-        ' memory usage of the process.
-
-
         Try
-
-            'Diskpart call
-            'Dim script As String = """" & Me.localPath & "\scripts\" & "diskpart.txt"""
-            'Dim logfile As String = """" & Me.localPath & "\scripts\" & "logfile.txt"""
-            'Dim dispart As String = "diskpart /s " & script & " > " & logfile
-            'MessageBox.Show(dispart)
-            'Extensions.RunCMD(dispart, False, True, False)
-
-            'C:\Users\Aderbal Botelho\Documents\educatux-magic\PenDriveMaker\bin\Debug\dd.exe' if='C:\Users\Aderbal Botelho\Downloads\debian-9.1.0-amd64-DVD-1.iso' of=\\?\Device\Harddisk1\Partition0
-            'Dim executable As String = """" & Me.localPath & "\" & "dd.exe"""
-            'Dim parameters As String = "if=" & IsoFileNameTxt.Text & ",of=\\.\" & deviceSelected.unit.ToLower() & ",bs=1M,--size,--progress"
-            'Dim parameters As String = " if=" & IsoFileNameTxt.Text & ", of=\\.\g:, bs=1M, --size, --progress"
-            'Dim parameters As String = "if=E:\educatux\e.iso of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
-
-
-            'Dim command As String = executable & " " & parameters
-            'MessageBox.Show(command)
             Extensions.RunCMD("""" & cmd & """", showWindow, waitProcess, permanent)
-
-
-            'Dim compiler As New Process()
-            'compiler.StartInfo.FileName = executable '"vbc.exe"
-            'compiler.StartInfo.Arguments = parameters '"/reference:Microsoft.VisualBasic.dll /out:sample.exe stdstr.vb"
-            'compiler.StartInfo.UseShellExecute = False
-            'compiler.StartInfo.RedirectStandardOutput = True
-            'compiler.Start()
-            'Dim p As New Process
-            'Dim psi As New ProcessStartInfo(executable, parameters)
-            'p.StartInfo = psi
-            'p.Start()
-            'p.WaitForExit()
-
-            'Dim comando As String = executable & " " & parameters & " /f"
-
-            'Shell("cmd.exe /c " & comando)
-            'MessageBox.Show(comando)
-
-            'Dim procID As Integer
-            ' Run calculator.
-            'procID = Shell(comando, AppWinStyle.NormalFocus, True, -1)
-
-            'MessageBox.Show(compiler.StandardOutput.ReadToEnd())
-
-            'compiler.WaitForExit()
-
-            '' Display process statistics until
-            '' the user closes the program.
-            'Do
-
-            '    If Not myProcess.HasExited Then
-            '        If myProcess.Responding Then
-            '            Console.WriteLine("Status = Running")
-            '        Else
-            '            MessageBox.Show("Process not responding...")
-            '        End If
-            '    End If
-            'Loop While Not myProcess.WaitForExit(1000)
-            'MessageBox.Show("Process finished.")
-
         Finally
-            'If Not myProcess Is Nothing Then
-            '    myProcess.Close()
-            'End If
-        End Try
 
+        End Try
     End Sub
 
-    Private Function CreateCmdStep1(tmpFolder As String)
+    Private Function CreateCmdStep(tmpFolder As String)
 
         '@echo off
         'set "CMD=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\dd.exe"
@@ -385,14 +300,10 @@ Public Class Form1
         sb.AppendLine("@echo off")
         sb.AppendLine("cls()")
         sb.AppendLine("set ""CMD=" & localPath & "\dd.exe""")
-        sb.AppendLine("echo cmd /K """"%CMD%"" if=\dev\zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
-        sb.AppendLine("cmd /K """"%CMD%"" if=/dev/zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
-        Dim name As String = tmpFolder & "\step1_dd_zero.cmd"
-        IO.File.WriteAllText(name, sb.ToString())
-        Return name
-    End Function
-
-    Private Function CreateCmdStep2(tmpFolder As String) As String
+        'sb.AppendLine("echo cmd /K """"%CMD%"" if=\dev\zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
+        sb.AppendLine("call /K """"%CMD%"" if=/dev/zero of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=512 count=1 --size --progress""")
+        sb.AppendLine("")
+        sb.AppendLine("")
 
 
         'Diskpart commands
@@ -415,20 +326,13 @@ Public Class Form1
         'set "LOGFILE=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\assets\logfile.txt"
         'diskpart / s "%COMMANDS%" > "%LOGFILE%" 
 
-        Dim sb2 As New System.Text.StringBuilder
-        sb2.AppendLine("@echo off")
-        sb2.AppendLine("cls()")
-        sb2.AppendLine("set ""COMMANDS=" & tmpFolder & "\diskpart_commands.txt""")
-        sb2.AppendLine("set ""LOGFILE=" & tmpFolder & "\diskpart_logfile.txt""")
-        sb2.AppendLine("diskpart /s ""%COMMANDS%"" > ""%LOGFILE%""")
-        Dim name As String = tmpFolder & "\step2_diskpart.cmd"
-        IO.File.WriteAllText(name, sb2.ToString())
-        Return name
-
-    End Function
-
-
-    Private Function CreateCmdStep3(tmpFolder As String)
+        sb.AppendLine("@echo off")
+        sb.AppendLine("cls()")
+        sb.AppendLine("set ""COMMANDS=" & tmpFolder & "\diskpart_commands.txt""")
+        sb.AppendLine("set ""LOGFILE=" & tmpFolder & "\diskpart_logfile.txt""")
+        sb.AppendLine("call diskpart /s ""%COMMANDS%"" > ""%LOGFILE%""")
+        sb.AppendLine("")
+        sb.AppendLine("")
 
         '@echo off
         'set "CMD=C:\Users\fleite\Documents\Visual Studio 2015\Projects\PenDriveMaker\PenDriveMaker\bin\Debug\dd.exe"
@@ -436,17 +340,23 @@ Public Class Form1
         'echo cmd / K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
         'cmd / K ""%CMD%" if="%ISO%" of=\\?\Device\Harddisk1\Partition0 bs=1M --size --progress"
 
-        Dim sb As New System.Text.StringBuilder
-
         sb.AppendLine("@echo off")
         sb.AppendLine("cls()")
         sb.AppendLine("set ""CMD=" & localPath & "\dd.exe""")
         sb.AppendLine("set ""ISO=" & IsoFileNameTxt.Text & """")
-        sb.AppendLine("echo cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
-        sb.AppendLine("cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
-        Dim name As String = tmpFolder & "\step3_dd.cmd"
+        sb.AppendLine("echo **************************************")
+        sb.AppendLine("echo:")
+        sb.AppendLine("echo  EDUCATUX USB PENDRIVE MAGIC " & config.GetKeyValue("version"))
+        sb.AppendLine("echo:")
+        sb.AppendLine("echo  " & config.GetTranslation(languageCode, "Waint... Transfering data to") & " " & deviceSelected.unit)
+        sb.AppendLine("echo:")
+        sb.AppendLine("echo **************************************")
+        sb.AppendLine("echo Many thanks John Newbigin for the excellent dd project.")
+        'sb.AppendLine("echo cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
+        sb.AppendLine("call cmd /K """"%CMD%"" if=""%ISO%"" of=\\?\Device\Harddisk" & deviceSelected.index & "\Partition0 bs=1M --size --progress""")
+        Dim name As String = tmpFolder & "\steps.cmd"
         IO.File.WriteAllText(name, sb.ToString())
-        Return Name
+        Return name
 
     End Function
 
