@@ -1,0 +1,37 @@
+{
+  "name": "make-pendrive",
+  "chromium-args": "--ignore-certificate-errors --ignore-urlfetcher-cert-requests",
+  "main": "index.html",
+  "description": "makependrive",
+  "author": "VictorLeite <victor.leite@gmail.com>",
+  "nwjs_version": "v0.15.1",
+  "version": "v0.0.6",
+  "window": {
+    "width": 450,
+    "height": 450,
+    "max_width": 450,
+    "max_height": 450
+  },
+  "devDependencies": {
+    "angular-ui-bootstrap": "^1.3.3",
+    "file-size": "^1.0.0"
+  },
+  "dependencies": {
+    "drivelist": "^5.1.5",
+    "etcher-image-write": "^9.1.3",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat-util": "^0.5.5",
+    "gulp-debug": "^3.1.0",
+    "gulp-exec": "^2.1.3",
+    "gulp-gzip": "^1.4.0",
+    "gulp-help": "^1.6.1",
+    "gulp-install": "file:node_modules/gulp-install",
+    "gulp-rename": "^1.2.2",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-util": "file:node_modules/gulp-util",
+    "gulp-watch": "^4.3.11",
+    "gulp-zip": "^4.0.0",
+    "yargs": "^8.0.2"
+  }
+}

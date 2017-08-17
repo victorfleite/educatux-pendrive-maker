@@ -1,0 +1,15 @@
+/assets/trace.txt
+/cache/
+/dist/
+/deploy/
+/dist.bin
+/v8.log
+/build/
+/nw.tar.gz
+/out.log
+/config/sdk-config.json
+/.gitignore~
+/Educatux-Downloader/nbproject/private/
+/nbproject/private/
+/nbproject/
+node_modules/*

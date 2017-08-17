@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="makePendrive">
+    <head>
+        <title>Make pendrive</title>
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" href="/assets/js/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/assets/js/ui-bootstrap-custom-build/ui-bootstrap-custom-1.3.3-csp.css" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/css/font.css" type="text/css" />  
+        <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="/assets/css/app.css" type="text/css" />
+        <link href="assets/css/style.css" rel="stylesheet">
+        <link href="assets/css/progress-loading/progress-loading.css" rel="stylesheet">
+        <style>
+            path {
+                stroke: #29B6F6;
+                stroke-linecap: round;
+                stroke-linejoin: miter;
+                -webkit-transition: stroke-dashoffset 0.2s ease-in;
+                transition: stroke-dashoffset 0.2s ease-in;
+                fill: transparent;
+            }
+        </style>
+    </head>  
+    <body>               
+        <!-- content -->
+        <div class="app-content">
+            <div ng-view></div>
+        </div>
+        <!-- /content --> 
+
+        <script src="/assets/js/jquery/dist/jquery.js"></script>
+        <script src="/assets/js/angular/angular.js"></script>
+        <script src="/assets/js/angular-route/angular-route.js"></script>
+        <script src="/assets/js/angular-animate/angular-animate.js"></script>
+        <script src="/assets/js/angular-base64/angular-base64.js"></script>
+        <script src="/assets/js/angular-auto-focus/angular-auto-focus.js"></script>
+        <script src="/assets/js/ui-bootstrap-custom-build/ui-bootstrap-custom-1.3.3.min.js"></script>
+        <script src="/assets/js/ui-bootstrap-custom-build/ui-bootstrap-custom-tpls-1.3.3.min.js"></script>  
+        <script src="/assets/js/roundprogress/angular-round-progress-directive.js"></script>  
+
+        <script src="/dist/dist.js"></script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<spinner show="loading">  
+    <div class="overlay"></div>
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div> 
+    </div>
+    <div class="please-wait">{{loadingMessage}}</div>
+</spinner>  
+
+<div class="bg-light lter b-b wrapper-md" ng-init="initialize()">
+    <div align="center">
+        <img src="/assets/img/educatux_site_logo.png">
+    </div> 
+</div>
+<div ng-show="msgError.enable" class="alert alert-danger" role="alert"> 
+    <strong>Ops!</strong> {{msgError.message}}
+</div>
+<div ng-show="letsDownload">
+    <div class="text-center" style="margin-top: 50px">
+        <div style=" position: absolute; margin-top: 70px; font-size: 40px; font-weight: bold; margin-left: 200px;">
+            {{label}}
+        </div>
+        <round-progress
+            max="max"
+            current="current"
+            color="#45ccce"
+            bgcolor="#eaeaea"
+            radius="100"
+            stroke="20"
+            semi="false"
+            rounded="false"
+            clockwise="true"
+            responsive="false"
+            duration="800"
+            animation="easeInOutQuart"
+            animation-delay="0">100%</round-progress>
+    </div>
+</div>
